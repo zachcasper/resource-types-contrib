@@ -15,8 +15,8 @@ Before you begin, ensure you have basic understanding of Radius concepts and the
 Contributing a Resource Type involves the following:
 
 1. [**Resource Type Schema**](#resource-type-schema): Defines the structure and properties of your Resource Type
-2. [**Recipes**](#recipes): Terraform or Bicep templates for deploying the Resource on different platforms
-3. [**Documentation**](#documentation): Providing clear usage examples and instructions
+2. [**Recipes**](#recipes-for-the-resource-type): Terraform or Bicep templates for deploying the Resource on different platforms
+3. [**Documentation**](#document-your-resource-type-and-recipes): Providing clear usage examples and instructions
 4. [**Testing**](/resource-types-contrib/contributing-docs/testing-resource-types-recipes.md): Ensuring your Resource Type works as expected in a Radius environment
 5. [**Submission**](/resource-types-contrib/contributing-docs/submitting-contribution): Creating a pull request with your changes
 
@@ -126,7 +126,7 @@ The following guidelines should be followed when contributing resource types:
 - Make sure the schema is simple and intuitive, avoiding unnecessary complexity.
 
 
-## Create Recipes for the Resource Type
+## Recipes for the Resource Type
 
 Radius supports Recipes in both Bicep and Terraform. Create a `recipes` directory under your resource type directory, and add platform-specific subdirectories for each IaC language you want to support.
 
@@ -134,7 +134,7 @@ Radius supports Recipes in both Bicep and Terraform. Create a `recipes` director
  - Familiarize yourself with the Radius [Recipe](https://docs.radapp.io/guides/recipes) concept
  - Follow this [how-to guide](https://docs.radapp.io/guides/recipes/howto-author-recipes/) to write your first recipe, register your recipe in the environment
 
-#### Example Bicep Recipe for Redis Cache on Kubernetes
+### Example Bicep Recipe for Redis Cache on Kubernetes
 
 ```bicep
 
@@ -229,7 +229,7 @@ output result object = {
 }
 ```
 
-#### Example Terraform Recipe
+### Example Terraform Recipe
 
 ```hcl
 terraform {
