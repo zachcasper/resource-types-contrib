@@ -53,7 +53,7 @@ resource-types-contrib/
 
 ## Contributing
 
-Community members can contribute new Resource Types, Recipes and Recipe packs to this repository. Follow the [Contribution.md](CONTRIBUTING.md) guidelines for more information.
+Community members can contribute new Resource Types, Recipes and Recipe packs to this repository. Follow the [Contribution.md](CONTRIBUTING.MD) guidelines for more information.
 
 ## License
 
