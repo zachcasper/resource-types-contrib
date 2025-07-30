@@ -30,7 +30,7 @@ Before submitting your contribution. Make sure to check the following:
 
 ## Review Process
 
-All contributions will be reviewed for:
+All contributions will be reviewed
 
 - Contribution need and relevance : Whether the resource type or recipe is needed by the community
 - Schema correctness and consistency

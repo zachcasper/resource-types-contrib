@@ -20,6 +20,43 @@ Contributing a Resource Type involves the following:
 4. [**Testing**](/resource-types-contrib/contributing-docs/testing-resource-types-recipes.md): Ensuring your Resource Type works as expected in a Radius environment
 5. [**Submission**](/resource-types-contrib/contributing-docs/submitting-contribution): Creating a pull request with your changes
 
+## Maturity Levels
+
+Radius Resource Types and Recipes are categorized into three maturity levels:
+
+_Stage 1 : Alpha_
+
+Purpose: Enable community members to contribute resource types and Recipes with minimal barriers
+Audience: Developers/Contributors exploring new technologies or learning Radius
+Requirements:
+    - Resource type schema Validation: YAML schema passes validation
+    - Single Recipe: At least one working recipe for any cloud provider or platform
+    - Basic Documentation: README with usage examples
+    - Manual Testing: Evidence of local testing by contributor
+
+_Stage 2 : Beta_
+
+Purpose: Ensure contributions meet production-ready standards with comprehensive testing and documentation
+Audience: Contributors seeking to have their resource types included in official Radius releases
+Requirements:
+    - Multi-Platform Support: Recipes for all three platforms ( AWS, Azure, Kubernetes)
+    - IAC Support: Recipes for both Bicep and Terraform
+    - Automated Testing: Functional tests that validate resource type and Recipes
+    - Documentation: Detailed README with Recipe coverage, troubleshooting guides, and best practices
+    - Ownership: Designated owner for the resource type and Recipe
+    - Maintainer Review: Formal review and approval by Radius maintainers
+
+_Stage 3 : Stable_
+
+Purpose: Establish Resource types and Recipes as officially supported and maintained by the Radius project
+Audience: Enterprise users doing production deployments and seeking stable, well-tested Resource types and Recipes
+Requirements:
+    - Functional tests have 100% coverage and results for Resource type schema and Recipe
+    - Integration Testing: Full integration with Radius CI/CD pipeline and release process
+    - Documentation: Complete user guides, troubleshooting, and best practices
+    - SLA Commitment: Defined support level and response time commitments
+    - Maintainer Review: Formal review and approval by Radius maintainers
+    
 ## Resource Type Schema
 
 ### 1. Choose a Resource Type
@@ -124,7 +161,6 @@ The following guidelines should be followed when contributing resource types:
     - `required` for required properties. `environment` should always be a required property.
 
 - Make sure the schema is simple and intuitive, avoiding unnecessary complexity.
-
 
 ## Recipes for the Resource Type
 
@@ -329,10 +365,10 @@ output "result" {
 ### Recipe Guidelines
 
 - Recipes should be idempotent, meaning they can be run multiple times without causing issues.
-- Implement secure defaults for all parameters.
+- Handle secure defaults for all parameters, especially those related to secrets.
 - Recipes should handle different size/configuration options, allowing users to choose the appropriate configuration for their needs.
-- Handle secrets appropriately
 - Provide outputs required to connect to the resource provisioned by the Recipe.
+- Use core Radius resource types like `containers`, `gateway` and `secrets` where applicable to ensure consistency and reusability.
 - Use comments to explain complex logic or important decisions in your Recipe code.
 
 ## Document Your Resource Type and Recipes
@@ -352,14 +388,14 @@ A list of properties and their descriptions, including required properties.
 
 A list of available Recipes for this resource type, including links to the Bicep and Terraform templates.:
 
-|Platform| IaC Language| Recipe Name |
+|Platform| IaC Language| Recipe Name | Stage |
 |---|---|---|
-| AWS | Bicep | aws-memorydb.bicep |
-| AWS | Terraform | aws-memorydb/main.tf |
-| Azure | Bicep | azure-rediscache.bicep |
-| Azure | Terraform | azure-rediscache/main.tf |
-| Kubernetes | Bicep | kubernetes.bicep |
-| Kubernetes | Terraform | kubernetes/main.tf |
+| AWS | Bicep | aws-memorydb.bicep | Alpha |
+| AWS | Terraform | aws-memorydb/main.tf | Alpha |
+| Azure | Bicep | azure-rediscache.bicep | Alpha |
+| Azure | Terraform | azure-rediscache/main.tf | Alpha |
+| Kubernetes | Bicep | kubernetes.bicep | Alpha |
+| Kubernetes | Terraform | kubernetes/main.tf | Alpha |
 
 ```
 
@@ -380,4 +416,3 @@ A brief description of what the Recipe does and how to use it.
 - Document any special requirements or limitations
 - Provide troubleshooting guidance
 - Link to relevant external documentation
-

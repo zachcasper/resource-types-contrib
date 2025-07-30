@@ -105,7 +105,11 @@
     rad deploy app.bicep 
     ```
 
+For an alpha level contribution, you are good to submit your contribution with the evidence of manual testing.
+
 ## Add a functional test to validate your Resource Type and Recipe
 
-< to be filled>
+For beta and stable contributions, you will need to ensure that the resource type and recipe are thoroughly tested, documented, and meet the requirements outlined in the [Maturity Levels](/contributing-resource-types-recipes.md#maturity-levels) section.
+
+<to be filled in>
 
