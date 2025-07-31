@@ -6,13 +6,13 @@ This guide walks you through the process of creating and contributing custom Res
 
 Before you begin, ensure you have basic understanding of Radius concepts and the IaC languages you plan to use (Bicep or Terraform). 
 
- - Familiarize yourself with the [Radius documentation](https://docs.radapp.io) 
+ - Familiarize yourself with the [Radius](https://docs.radapp.io) 
  - Familiarize yourself with the [Resource Types](https://docs.radapp.io/tutorials/create-resource-type/) tutorial
  - Familiarize yourself with the [Radius Recipes](https://docs.radapp.io/guides/recipes) concept.
 
 ## Overview
 
-Contributing a Resource Type involves the following:
+Contributing a Resource Type and Recipe involves the following:
 
 1. [**Resource Type Schema**](#resource-type-schema): Defines the structure and properties of your Resource Type
 2. [**Recipes**](#recipes-for-the-resource-type): Terraform or Bicep templates for deploying the Resource on different platforms
@@ -26,36 +26,36 @@ Radius Resource Types and Recipes are categorized into three maturity levels:
 
 _Stage 1 : Alpha_
 
-Purpose: Enable community members to contribute resource types and Recipes with minimal barriers
-Audience: Developers/Contributors exploring new technologies or learning Radius
-Requirements:
-    - Resource type schema Validation: YAML schema passes validation
-    - Single Recipe: At least one working recipe for any cloud provider or platform
-    - Basic Documentation: README with usage examples
-    - Manual Testing: Evidence of local testing by contributor
+    Purpose: Enable community members to contribute resource types and Recipes with minimal barriers
+    Audience: Developers/Contributors exploring new technologies or learning Radius
+    Requirements:
+        - Resource type schema Validation: YAML schema passes validation
+        - Single Recipe: At least one working recipe for any cloud provider or platform
+        - Basic Documentation: README with usage examples
+        - Manual Testing: Evidence of local testing by contributor
 
 _Stage 2 : Beta_
 
-Purpose: Ensure contributions meet production-ready standards with comprehensive testing and documentation
-Audience: Contributors seeking to have their resource types included in official Radius releases
-Requirements:
-    - Multi-Platform Support: Recipes for all three platforms ( AWS, Azure, Kubernetes)
-    - IAC Support: Recipes for both Bicep and Terraform
-    - Automated Testing: Functional tests that validate resource type and Recipes
-    - Documentation: Detailed README with Recipe coverage, troubleshooting guides, and best practices
-    - Ownership: Designated owner for the resource type and Recipe
-    - Maintainer Review: Formal review and approval by Radius maintainers
+    Purpose: Ensure contributions meet production-ready standards with comprehensive testing and documentation
+    Audience: Contributors seeking to have their resource types included in official Radius releases
+    Requirements:
+        - Multi-Platform Support: Recipes for all three platforms ( AWS, Azure, Kubernetes)
+        - IAC Support: Recipes for both Bicep and Terraform
+        - Automated Testing: Functional tests that validate resource type and Recipes
+        - Documentation: Detailed README with Recipe coverage, troubleshooting guides, and best practices
+        - Ownership: Designated owner for the resource type and Recipe
+        - Maintainer Review: Formal review and approval by Radius maintainers
 
 _Stage 3 : Stable_
 
-Purpose: Establish Resource types and Recipes as officially supported and maintained by the Radius project
-Audience: Enterprise users doing production deployments and seeking stable, well-tested Resource types and Recipes
-Requirements:
-    - Functional tests have 100% coverage and results for Resource type schema and Recipe
-    - Integration Testing: Full integration with Radius CI/CD pipeline and release process
-    - Documentation: Complete user guides, troubleshooting, and best practices
-    - SLA Commitment: Defined support level and response time commitments
-    - Maintainer Review: Formal review and approval by Radius maintainers
+    Purpose: Establish Resource types and Recipes as officially supported and maintained by the Radius project
+    Audience: Enterprise users doing production deployments and seeking stable, well-tested Resource types and Recipes
+    Requirements:
+        - Functional tests have 100% coverage and results for Resource type schema and Recipe
+        - Integration Testing: Full integration with Radius CI/CD pipeline and release process
+        - Documentation: Complete user guides, troubleshooting, and best practices
+        - SLA Commitment: Defined support level and response time commitments
+        - Maintainer Review: Formal review and approval by Radius maintainers
     
 ## Resource Type Schema
 
@@ -101,7 +101,7 @@ resource-types-contrib/
 For eg: if you are contributing to a `redisCaches` resource type, create a `redis.yaml` file that defines your resource type schema:
 
 ```yaml
-name: Radius.Datastores
+name: Radius.Data
 types:
   redisCaches:
     apiVersions:
@@ -149,7 +149,7 @@ types:
 
 The following guidelines should be followed when contributing resource types:
 
-- The `name` field follows the format `Radius.<Category>`, where `<Category>` is a high-level grouping (e.g., Datastores, Messaging, Dapr) For e.g. Radius.Datastores. 
+- The `name` field follows the format `Radius.<Category>`, where `<Category>` is a high-level grouping (e.g., Data, Dapr, AI) For e.g. `Radius.Data` 
 
 - The resource type name follows the camelCase convention and is in plural form, such as `redisCaches`, `sqlDatabases`, or `rabbitMQQueues`.
 

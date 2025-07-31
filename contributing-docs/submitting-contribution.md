@@ -30,12 +30,12 @@ Before submitting your contribution. Make sure to check the following:
 
 ## Review Process
 
-All contributions will be reviewed
+All contributions will be reviewed by the Radius maintainers and Approvers. The review will focus on:
 
-- Contribution need and relevance : Whether the resource type or recipe is needed by the community
+- Contribution need and relevance 
 - Schema correctness and consistency
 - Recipe functionality and security
 - Documentation completeness
-- Test coverage
+- Test coverage as applicable
 
 Thank you for contributing to the Radius ecosystem!

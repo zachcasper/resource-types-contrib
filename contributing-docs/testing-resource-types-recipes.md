@@ -37,7 +37,7 @@
     **Bicep Recipe via rad CLI**
     ```bash
         rad recipe register default --environment default \
-    --resource-type Radius.Resources/postgreSQL \
+    --resource-type Radius.Resources/redisCaches \
     --template-kind bicep \
     --template-path <host>/<registry>/rediscache:latest
     ```
@@ -74,8 +74,7 @@
                     }
                     'redis-terraform': {
                         templateKind: 'terraform'
-                        templatePath: 'user/recipes/myrecipe'
-                        templateVersion: '1.1.0'
+                        templatePath: 'git::<git-server-name>/<repository-name>.git//<directory>/<subdirectory>'
                         // Optionally set parameters for all resources calling this Recipe
                         parameters: {
                             port: 3000
@@ -90,7 +89,7 @@
 1. Author the resource types in your application and verify that it works as expected
     
     ```bicep
-    resource redis 'Radius.Datastores/redisCaches@2023-07-24-preview'= {
+    resource redis 'Radius.Datas/redisCaches@2023-07-24-preview'= {
         name: 'myresource'
         properties: {
             environment: environment
@@ -109,7 +108,5 @@ For an alpha level contribution, you are good to submit your contribution with t
 
 ## Add a functional test to validate your Resource Type and Recipe
 
-For beta and stable contributions, you will need to ensure that the resource type and recipe are thoroughly tested, documented, and meet the requirements outlined in the [Maturity Levels](/contributing-resource-types-recipes.md#maturity-levels) section.
-
-<to be filled in>
+For beta and stable contributions, you will need to ensure that the resource type and recipe are thoroughly tested, documented, and meet the requirements outlined in the [Maturity Levels](/contributing-resource-types-recipes.md#maturity-levels) section. More details coming soon!
 

@@ -1,18 +1,18 @@
 # Radius Resource Types and Recipes Contributions
 
-This repository contains the core Radius and community-contributed Resource Types and Recipes for Radius Environments, enabling platform engineers to extend Radius capabilities to their Internal developer platforms
+This repository contains the core Radius Resource Types and Recipes for Radius Environments, enabling platform engineers to extend Radius capabilities to their Internal developer platforms
 
 ## Overview
 
-Radius is a cloud-native application platform that enables developers and the platform engineers that support them to collaborate on delivering and managing cloud-native applications that follow organizational best practices for cost, operations and security, by default. Radius is designed to be extensible across different compute platforms and providers. This repository serves as the central hub for community contributions of:
+Radius is a cloud-native application platform that enables developers and the platform engineers that support them to collaborate on delivering and managing cloud-native applications that follow organizational best practices for cost, operations and security, by default. Radius is designed to be extensible across different compute platforms and providers. This repository serves as the central hub for contributions of:
 
 - **Resource Types**: Schema definitions of the Radius core and community-contributed resources
-- **Recipes**: Platform-specific provisioning templates using Bicep or Terraform
+- **Recipes**: Platform-specific deployment templates using Bicep or Terraform
 - **Recipe Packs**: Bundled collections of Recipes by compute platform or deployment scenario
 
 ## What are Resource Types?
 
-Resource Types are simple abstractions that define the schema for different types of resources in the Radius ecosystem. They provide a consistent interface that enables developers to define and manage resources in their applications.
+Resource Types are simple abstractions that define the schema for resources in the Radius ecosystem. They provide a consistent interface that enables developers to define, manage and deploy resources in their applications.
 
 ## What are Recipes?
 
@@ -26,25 +26,32 @@ Recipe Packs are collections of Recipes that are grouped together to provide a c
 
 ```
 resource-types-contrib/
-├── README.md
-├── <category of the resource type>/    #e.g., core/
-│   ├── <name of the resource type>/   # e.g., containers/
-│   │   ├── `<resourcetype>.yaml`/  # e.g., containers.yaml  
+├── <category of the resource type>/    #e.g., data/
+│   ├── <name of the resource type>/   # e.g., redis/
+│   │   ├── README.MD       # Resource type documentation
+│   │   ├── `<resourcetype>.yaml`/  # e.g., redis.yaml
 │   │   ├── recipes/     # Recipes for this type
-│   │   │       ├── <provider1> # e.g., azure/
+│   │   │       ├── <provider1> # e.g., azure-redis/
 │   │   │       │       ├── bicep
-│   │   │       │       │       ├── azure-aci.bicep
-│   │   │       │       │       └── azure-aci.params
+│   │   │       │       │       ├── azure-rediscache.bicep
+│   │   │       │       │       └── azure-rediscache.params
 │   │   │       │       └── terraform
 │   │   │       │               ├── main.tf
 │   │   │       │               └── var.tf
-│   │   │       ├── <provider2> # e.g., kubernetes/
+│   │   │       ├── <provider2> # e.g., aws-memorydb/
 │   │   │       │       ├── bicep
-│   │   │       │       │       ├── kubernetes.bicep
-│   │   │       │       │       └── kubernetes.params
+│   │   │       │       │       ├── aws-memorydb.bicep
+│   │   │       │       │       └── aws-memorydb.params
 │   │   │       │       └── terraform
 │   │   │       │               ├── main.tf
 │   │   │       │               └── var.tf
+│   │   │       └── <provider3> # e.g., kubernetes/
+│   │               ├── bicep
+│   │               │       ├── kubernetes-redis.bicep
+│   │               │       └── kubernetes-redis.params
+│   │               └── terraform
+│   │                       ├── main.tf
+│   │                       └── var.tf
 ├── recipe-packs/
 │   ├── azure-aci/         # Azure Container Instances Recipes
 │   ├── kubernetes/        # Kubernetes platform Recipes
