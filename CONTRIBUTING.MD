@@ -1,6 +1,6 @@
 # Contribution Guidelines
 
-Thank you for your interest in contributing to Radius Resource types and Recipes! We welcome contributions from the community. Contributions come in many forms: submitting issues, writing code, participating in discussions, reviewing pull requests. This document outlines the guidelines for contributing to the Radius resource types and Recipes repository.
+Thank you for your interest in contributing to Radius Resource types and Recipes! We welcome contributions from the community. Contributions come in many forms: submitting issues, writing code, participating in discussions, reviewing pull requests. This document outlines the guidelines for contributing to the `resource-types-contrib` repository for Radius Resource Types and Recipes.
 
 ## Table of Contents
 

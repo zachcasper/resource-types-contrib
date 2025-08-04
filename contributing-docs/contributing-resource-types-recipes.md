@@ -1,6 +1,6 @@
 # Contributing Resource Type Definitions and Recipes to Radius
 
-This guide walks you through the process of creating and contributing custom Resource type definitions and Recipes to this repository.
+This guide walks you through the process of creating and contributing Radius Resource Type definitions and Recipes to this repository.
 
 ## Prerequisites
 
@@ -8,7 +8,7 @@ Before you begin, ensure you have basic understanding of Radius concepts and the
 
  - Familiarize yourself with the [Radius](https://docs.radapp.io) 
  - Familiarize yourself with the [Resource Types](https://docs.radapp.io/tutorials/create-resource-type/) tutorial
- - Familiarize yourself with the [Radius Recipes](https://docs.radapp.io/guides/recipes) concept.
+ - Familiarize yourself with the [Radius Recipes](https://docs.radapp.io/guides/recipes) concept
 
 ## Overview
 
@@ -22,7 +22,7 @@ Contributing a Resource Type and Recipe involves the following:
 
 ## Maturity Levels
 
-Radius Resource Types and Recipes are categorized into three maturity levels:
+Radius Resource Types and Recipes are categorized into the three maturity levels detailed below. Contributions of Resource Types and Recipes may begin at the `Alpha` or `Beta` stage and progress through to the `Stable` phase.
 
 _Stage 1 : Alpha_
 
@@ -33,6 +33,7 @@ _Stage 1 : Alpha_
         - Single Recipe: At least one working recipe for any cloud provider or platform
         - Basic Documentation: README with usage examples
         - Manual Testing: Evidence of local testing by contributor
+        - Maintainer Review: Formal review and approval by Radius maintainers
 
 _Stage 2 : Beta_
 
@@ -54,7 +55,9 @@ _Stage 3 : Stable_
         - Functional tests have 100% coverage and results for Resource type schema and Recipe
         - Integration Testing: Full integration with Radius CI/CD pipeline and release process
         - Documentation: Complete user guides, troubleshooting, and best practices
-        - SLA Commitment: Defined support level and response time commitments
+        - Ownership (resource type and k8s): Radius maintainers assume ownership of the resource type schema and Kubernetes Recipe
+        - Ownership (cloud Recipes): Contributor designates a committed owner for the cloud platform Recipes (e.g. AWS and/or Azure)
+        - SLA Commitment: Defined support level and response time commitments from cloud platform Recipe owners
         - Maintainer Review: Formal review and approval by Radius maintainers
     
 ## Resource Type Schema
@@ -149,11 +152,11 @@ types:
 
 The following guidelines should be followed when contributing resource types:
 
-- The `name` field follows the format `Radius.<Category>`, where `<Category>` is a high-level grouping (e.g., Data, Dapr, AI) For e.g. `Radius.Data` 
+- The `name` field follows the format `Radius.<Category>`, where `<Category>` is a high-level grouping (e.g., Data, Dapr, AI). Some examples might be `Radius.Data/*` or `Radius.Security/*`.
 
 - The resource type name follows the camelCase convention and is in plural form, such as `redisCaches`, `sqlDatabases`, or `rabbitMQQueues`.
 
-- Version should be the latest date and follow the format `YYYY-MM-DD-preview`. This is the date on which the contribution is made or when the resource type is tested and validated. For e.g. `2025-07-20-preview`. 
+- Version should be the latest date and follow the format `YYYY-MM-DD-preview`. This is the date on which the contribution is made or when the resource type is tested and validated, e.g. `2025-07-20-preview`. 
 
 - Properties should follow the camel Case convention and include a description for each property. 
     - `readOnly:true` set for property automatically populated by Radius Recipes.

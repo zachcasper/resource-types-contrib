@@ -1,6 +1,6 @@
 # Radius Resource Types and Recipes Contributions
 
-This repository contains the core Radius Resource Types and Recipes for Radius Environments, enabling platform engineers to extend Radius capabilities to their Internal developer platforms
+This repository contains the core Radius Resource Types and Recipes for Radius Environments, enabling platform engineers to extend Radius capabilities to their internal developer platforms
 
 ## Overview
 
@@ -8,7 +8,7 @@ Radius is a cloud-native application platform that enables developers and the pl
 
 - **Resource Types**: Schema definitions of the Radius core and community-contributed resources
 - **Recipes**: Platform-specific deployment templates using Bicep or Terraform
-- **Recipe Packs**: Bundled collections of Recipes by compute platform or deployment scenario
+- **Recipe Packs**: Bundled collections of Recipes by compute platform or deployment scenario (coming soon)
 
 ## What are Resource Types?
 
@@ -16,11 +16,11 @@ Resource Types are simple abstractions that define the schema for resources in t
 
 ## What are Recipes?
 
-Recipes define how the Resource types are provisioned on different compute platforms and cloud environments. Platform engineers or infrastructure operators define Recipes to provision the infrastructure in a secured way following the organization's best practices. Refer to the [Recipes overview page](https://docs.radapp.io/guides/recipes/overview/).
+Recipes define how the Resource types are provisioned on different compute platforms and cloud environments. Platform engineers or infrastructure operators define Recipes to provision the infrastructure in a secured way following the organization's best practices. To learn more about Recipes, please visit [Recipes overview](https://docs.radapp.io/guides/recipes/overview/) in the Radius documentation.
 
 ## What are Recipe Packs?
 
-Recipe Packs are collections of Recipes that are grouped together to provide a complete solution for a specific compute platform or deployment scenario. They allow platform engineers to easily deploy and manage resources across different environments using pre-defined configurations.
+Recipe Packs are collections of Recipes that are grouped together to provide a complete solution for a specific compute platform or deployment scenario. They allow platform engineers to easily deploy and manage resources across different environments using pre-defined configurations. The Recipe Packs feature is currently under development.
 
 ## Repository Structure
 
