@@ -12,6 +12,23 @@
     rad bicep publish-extension -f types.yaml --target <extensionName>.tgz
     ```
 
+    Open the `bicepconfig.json` file and add the path to the `<extensionName>.tgz`.
+    
+    ```json
+    {
+        "experimentalFeaturesEnabled": {
+            "extensibility": true
+        },
+        "extensions": {
+            "radius": "br:biceptypes.azurecr.io/radius:latest",
+            "aws": "br:biceptypes.azurecr.io/aws:latest",
+            "radiusResources": "<extensionName>.tgz"
+        }
+    }
+    ```
+    
+    Now, any Bicep template with extension radiusResources will reference the `<extensionName>.tgz` file for details about the new resource type.
+
 1. Publish the Recipe to a Registry
 
     For Bicep, Recipes leverage [Bicep registries](https://learn.microsoft.com/azure/azure-resource-manager/bicep/private-module-registry) for template storage. 
@@ -89,6 +106,7 @@
 1. Author the resource types in your application and verify that it works as expected
     
     ```bicep
+    extension radiusResources
     resource redis 'Radius.Datas/redisCaches@2023-07-24-preview'= {
         name: 'myresource'
         properties: {

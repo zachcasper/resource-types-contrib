@@ -55,7 +55,7 @@ _Stage 3 : Stable_
         - Functional tests have 100% coverage and results for Resource type schema and Recipe
         - Integration Testing: Full integration with Radius CI/CD pipeline and release process
         - Documentation: Complete user guides, troubleshooting, and best practices
-        - Ownership (resource type and k8s): Radius maintainers assume ownership of the resource type schema and Kubernetes Recipe
+        - Ownership (Resource type and Kubernetes Recipe): Radius maintainers assume ownership of the resource type schema and Kubernetes Recipe
         - Ownership (cloud Recipes): Contributor designates a committed owner for the cloud platform Recipes (e.g. AWS and/or Azure)
         - SLA Commitment: Defined support level and response time commitments from cloud platform Recipe owners
         - Maintainer Review: Formal review and approval by Radius maintainers
