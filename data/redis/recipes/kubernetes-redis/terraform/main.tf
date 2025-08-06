@@ -12,10 +12,22 @@ variable "context" {
   type = any
 }
 
-variable "port" {
-  description = "The port Redis is offered on. Defaults to 6379."
-  type = number
-  default = 6379
+variable "memory" {
+  description = "Memory limits for the PostgreSQL container"
+  type = map(object({
+    memoryRequest = string
+    memoryLimit  = string
+  }))
+  default = {
+    S = {
+      memoryRequest = "512Mi"
+      memoryLimit   = "1024Mi"
+    },
+    M = {
+      memoryRequest = "1Gi"
+      memoryLimit   = "2Gi"
+    }
+  }
 }
 
 resource "kubernetes_deployment" "redis" {
@@ -44,9 +56,18 @@ resource "kubernetes_deployment" "redis" {
         container {
           name  = "redis"
           image = "redis:6"
+          resources {
+            requests = {
+              memory = var.memory[var.context.resource.properties.capacity].memoryRequest
+              }
+              limits = {
+                memory= var.memory[var.context.resource.properties.capacity].memoryLimit
+              }
+            }
           port {
             container_port = 6379
           }
+
         }
       }
     }
@@ -65,7 +86,7 @@ resource "kubernetes_service" "redis" {
       resource = var.context.resource.name
     }
     port {
-      port        = var.port
+      port        = 6379
       target_port = "6379"
     }
   }
