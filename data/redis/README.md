@@ -7,7 +7,6 @@ This directory contains the Resource Type definition and Recipes for Redis, a po
 The Resource Type schema for Redis is defined in the `redis.yaml` file. 
 
 Input properties include:
-
 - Environment: The Radius environment ID to which the resource belongs to.
 - Application: The Radius application ID to which the resource belongs to.
 - Capacity: The size of the Redis cache.
@@ -21,11 +20,9 @@ Output properties include:
 
 ## Recipes
 
+Below is a summary of the available Recipes for the Redis Resource Type, categorized by platform and Infrastructure as Code (IaC) language. 
+
 |Platform| IaC Language| Recipe Name | Stage |
 |---|---|---|---|
 | Kubernetes | Bicep | kubernetes.bicep | Alpha |
 | Kubernetes | Terraform | kubernetes/main.tf | Alpha |
-| AWS | Bicep | aws-memorydb.bicep | Alpha |
-| AWS | Terraform |  |  |
-| Azure | Bicep | azure-rediscache.bicep | Alpha |
-| Azure | Terraform |  |  |
