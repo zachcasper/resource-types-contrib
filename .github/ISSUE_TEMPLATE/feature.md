@@ -1,13 +1,13 @@
 ---
 name: Feature Request
-about: Request a feature in Radius Recipes
+about: Request a new Resource Type or Recipe for Radius
 title: "<FEATURE TITLE>"
 assignees: ''
 ---
 
 ## Overview of feature request
 
-<!--What are you proposing Radius add/update/remove?-->
+<!--What are you proposing to add/update/remove Res-->
 
 ## Acceptance criteria
 
