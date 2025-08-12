@@ -81,7 +81,7 @@ Create a new directory for your resource type under the appropriate category. Fo
 ```
 resource-types-contrib/
 └── data/
-└── redis/
+ └── redis/
   ├── redis.yaml
   ├── README.md
   └── recipes/
