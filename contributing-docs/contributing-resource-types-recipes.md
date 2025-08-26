@@ -272,7 +272,7 @@ A brief description of the Resource Type and its purpose.
 A list of available Recipes for this Resource Type, including links to the Bicep and Terraform templates.:
 
 |Platform| IaC Language| Recipe Name | Stage |
-|---|---|---|
+|---|---|---|---|
 | AWS | Bicep | aws-memorydb.bicep | Alpha |
 | AWS | Terraform | aws-memorydb/main.tf | Alpha |
 | Azure | Bicep | azure-cache.bicep | Alpha |
@@ -280,11 +280,11 @@ A list of available Recipes for this Resource Type, including links to the Bicep
 | Kubernetes | Bicep | kubernetes-redis.bicep | Alpha |
 | Kubernetes | Terraform | kubernetes/main.tf | Alpha |
 
-## Input Properties
+## Recipe Input Properties
 
 A list of properties set by developers and a description of their purpose when authoring a Recipe. 
 
-## Read-only Properties
+## Recipe Output Properties
 
 A list of read-only properties which are required to be set by the Recipe.
 ```
