@@ -181,13 +181,12 @@ Each Resource Type has two types of documentation written specifically for devel
 Developer documentation is embedded in the Resource Type definition. Each Resource Type definition must have documentation on how and when to use the resource in the top-level description property. Each property must also include:
  - The overall description of the property including example values.
  - Whether the property is required or optional.
- - If the property is an enum, the value values.
 
 When setting the description of properties:
  - Unquoted strings are preferred, avoid special characters such as `:`, `{`, `}`, `[`, `]`, `,`, `&`, `*`, `#`, `?`, `|`, `-`, `<`, `>`, `=`, `!`, `%`, `@`, and `\`.
  - Prefix the description with `(Required)`, `(Optional)`, or `(Read Only)`.
- - If an enum, do not add valid values in the description.
- - Do not specify what the default value of an enum is since this is Recipe dependent.
+ - If an enum, do not add acceptable values in the description (these are visible in VS Code via Intellisense).
+ - There are no defaults for enums. If the Recipes should assume a value, denote that "the value is assumed to be _____".
  - Denote values using `backquotes`. 
 
 For example, the initial `redisCaches` Resource Type from above must be enhanced with developer documentation:
