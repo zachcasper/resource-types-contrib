@@ -17,7 +17,7 @@ Contributing a Resource Type and Recipe involves the following:
 1. [**Resource Type Schema**](#resource-type-schema): Defines the structure and properties of your Resource Type
 2. [**Recipes**](#recipes-for-the-resource-type): Terraform or Bicep templates for deploying the Resource on different platforms
 3. [**Documentation**](#document-your-resource-type-and-recipes): Providing clear usage examples and instructions
-4. [**Testing**](/resource-types-contrib/contributing-docs/testing-resource-types-recipes.md): Ensuring your Resource Type works as expected in a Radius environment
+4. [**Testing**](/resource-types-contrib/contributing-docs/testing-resource-types-recipes.md): Ensuring your Resource Type works as expected in a Radius Environment
 5. [**Submission**](/resource-types-contrib/contributing-docs/submitting-contribution): Creating a pull request with your changes
 
 ## Maturity Levels
@@ -30,7 +30,7 @@ _Stage 1: Alpha_
     Audience: Developers/Contributors exploring new technologies or learning Radius
     Requirements:
         - Resource Type schema validation: YAML schema passes validation
-        - Single Recipe: At least one working recipe for any cloud provider or platform
+        - Single Recipe: At least one working Recipe for any cloud platform
         - Basic documentation: README with usage examples
         - Manual testing: Evidence of local testing by contributor
         - Maintainer review: Formal review and approval by Radius maintainers
@@ -38,7 +38,7 @@ _Stage 1: Alpha_
 _Stage 2 : Beta_
 
     Purpose: Ensure contributions meet production-ready standards with comprehensive testing and documentation
-    Audience: Contributors seeking to have their resource types included in official Radius releases
+    Audience: Contributors seeking to have their Resource Types included in official Radius releases
     Requirements:
         - Multi-platform support: Recipes for all three platforms (AWS, Azure, and Kubernetes)
         - IAC support: Recipes for both Bicep and Terraform
@@ -56,7 +56,7 @@ _Stage 3 : Stable_
         - Integration testing: Full integration with Radius CI/CD pipeline and release process
         - Documentation: Well proven platform engineer and developer documentation
         - Ownership (Resource Type and Kubernetes Recipes): Radius maintainers assume ownership of the Resource Type definition and Kubernetes Recipes
-        - Ownership (cloud provider Recipes): Contributor designates a committed owner for the cloud provider Recipes (e.g. AWS and Azure)
+        - Ownership (cloud platform Recipes): Contributor designates a committed owner for the cloud platform Recipes (e.g. AWS and Azure)
         - SLA commitment: Defined support level and response time commitments from cloud platform Recipe owners
         - Maintainer review: Formal review and approval by Radius maintainers
     
@@ -64,7 +64,7 @@ _Stage 3 : Stable_
 
 ### 1. Choose a Resource Type
 
-Identify the resource type you want to contribute. It could be a database, messaging service, or any other resource that fits within the Radius ecosystem. You can pick from the open issues in this repository or propose a new resource type.
+Identify the Resource Type you want to contribute. It could be a database, messaging service, or any other resource that fits within the Radius ecosystem. You can pick from the open issues in this repository or propose a new Resource Type.
 
 ### 2. Create a fork and clone this Repository
 
@@ -76,7 +76,7 @@ git clone https://github.com/<your-username>/resource-types-contrib.git
 
 ### 3. Create a new Resource Type directory
 
-Create a new directory for your resource type under the appropriate category. For example if you are contributing a new `redisCaches` resource type, the directory structure should look like this:
+Create a new directory for your Resource Type under the appropriate category. For example if you are contributing a new `redisCaches` Resource Type, the directory structure should look like this:
 
 ```
 resource-types-contrib/
@@ -110,7 +110,7 @@ resource-types-contrib/
 
 ### 4. Define Your Resource Type Definition
 
-For example, if you are contributing to a `redisCaches` resource type, create a `redisCaches.yaml` file that defines the `redisCaches` Resource Type. The initial version may look similar to:
+For example, if you are contributing to a `redisCaches` Resource Type, create a `redisCaches.yaml` file that defines the `redisCaches` Resource Type. The initial version may look similar to:
 
 ```yaml
 namespace: Radius.Data
@@ -175,10 +175,10 @@ The following guidelines should be followed when contributing new Resource Types
 
 ## Document Your Resource Type and Recipes
 
-Each resource type has two types of documentation written specifically for developers, and separately, for platform engineers.
+Each Resource Type has two types of documentation written specifically for developers, and separately, for platform engineers.
 
 ### Developers
-Developer documentation is embedded in the resource type definition. Each resource type definition must have documentation on how and when to use the resource in the top-level description property. Each property must also include:
+Developer documentation is embedded in the Resource Type definition. Each Resource Type definition must have documentation on how and when to use the resource in the top-level description property. Each property must also include:
  - The overall description of the property including example values.
  - Whether the property is required or optional.
  - If the property is an enum, the value values.
@@ -226,10 +226,10 @@ types:
           properties:
             environment:
               type: string
-              description: (Required) The Radius environment ID. Typically set by the rad CLI. Typically value should be `environment`.
+              description: (Required) The Radius Environment ID. Typically set by the rad CLI. Typically value should be `environment`.
             application:
               type: string
-              description: (Required) The Radius application ID. `todolist.id` for example.
+              description: (Required) The Radius Application ID. `todolist.id` for example.
             capacity:
               type: string
               enum: [S, M, L, XL]
@@ -269,15 +269,15 @@ A brief description of the Resource Type and its purpose.
 
 ## Recipes
 
-A list of available Recipes for this resource type, including links to the Bicep and Terraform templates.:
+A list of available Recipes for this Resource Type, including links to the Bicep and Terraform templates.:
 
 |Platform| IaC Language| Recipe Name | Stage |
 |---|---|---|
 | AWS | Bicep | aws-memorydb.bicep | Alpha |
 | AWS | Terraform | aws-memorydb/main.tf | Alpha |
-| Azure | Bicep | azure-rediscache.bicep | Alpha |
-| Azure | Terraform | azure-rediscache/main.tf | Alpha |
-| Kubernetes | Bicep | kubernetes.bicep | Alpha |
+| Azure | Bicep | azure-cache.bicep | Alpha |
+| Azure | Terraform | azure-cache/main.tf | Alpha |
+| Kubernetes | Bicep | kubernetes-redis.bicep | Alpha |
 | Kubernetes | Terraform | kubernetes/main.tf | Alpha |
 
 ## Input Properties
@@ -309,11 +309,11 @@ A brief description of what the Recipe does and how to use it.
 
 ## Recipes for the Resource Type
 
-Radius supports Recipes in both Bicep and Terraform. Create a `recipes` directory under your resource type directory, and add platform-specific subdirectories for each IaC language you want to support.
+Radius supports Recipes in both Bicep and Terraform. Create a `recipes` directory under your Resource Type directory, and add platform-specific subdirectories for each IaC language you want to support.
 
  - Familiarize yourself with the IaC language of your choice [Bicep](https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/overview?tabs=bicep) or [Terraform](https://developer.hashicorp.com/terraform)
  - Familiarize yourself with the Radius [Recipe](https://docs.radapp.io/guides/recipes) concept
- - Follow this [how-to guide](https://docs.radapp.io/guides/recipes/howto-author-recipes/) to write your first recipe, register your recipe in the environment
+ - Follow this [how-to guide](https://docs.radapp.io/guides/recipes/howto-author-recipes/) to write your first Recipe, register your Recipe in the Environment
 
 ### Example Bicep Recipe for Redis Cache on Kubernetes
 
@@ -344,7 +344,7 @@ resource redis 'apps/Deployment@v1' = {
           app: 'redis'
           resource: context.resource.name
 
-          // Label pods with the application name so `rad run` can find the logs.
+          // Label pods with the Application name so `rad run` can find the logs.
           'radapp.io/application': context.application == null ? '' : context.application.name
         }
       }
@@ -513,5 +513,5 @@ output "result" {
 - Handle secure defaults for all parameters, especially those related to secrets.
 - Recipes should handle different size/configuration options, allowing users to choose the appropriate configuration for their needs.
 - Provide outputs required to connect to the resource provisioned by the Recipe.
-- Use core Radius resource types like `containers`, `gateway` and `secrets` where applicable to ensure consistency and reusability.
+- Use core Radius Resource Types like `containers`, `gateway` and `secrets` where applicable to ensure consistency and reusability.
 - Use comments to explain complex logic or important decisions in your Recipe code.
