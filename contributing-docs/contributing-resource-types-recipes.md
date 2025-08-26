@@ -35,7 +35,7 @@ _Stage 1: Alpha_
         - Manual testing: Evidence of local testing by contributor
         - Maintainer review: Formal review and approval by Radius maintainers
 
-_Stage 2 : Beta_
+_Stage 2: Beta_
 
     Purpose: Ensure contributions meet production-ready standards with comprehensive testing and documentation
     Audience: Contributors seeking to have their Resource Types included in official Radius releases
@@ -47,7 +47,7 @@ _Stage 2 : Beta_
         - Ownership: Designated owner for the Resource Type and Recipe
         - Maintainer review: Formal review and approval by Radius maintainers
 
-_Stage 3 : Stable_
+_Stage 3: Stable_
 
     Purpose: Establish Resource Types and Recipes as officially supported and maintained by the Radius project
     Audience: Enterprise users doing production deployments and seeking stable, well-tested Resource Types and Recipes
