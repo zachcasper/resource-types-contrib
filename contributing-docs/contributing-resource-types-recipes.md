@@ -80,7 +80,7 @@ Create a new directory for your Resource Type under the appropriate category. Fo
 
 ```
 resource-types-contrib/
-└── data/
+└── Data/
  └── redisCaches/
   ├── redisCaches.yaml
   ├── README.md
