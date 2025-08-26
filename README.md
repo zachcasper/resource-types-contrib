@@ -2,11 +2,11 @@
 
 ## Overview
 
-This repository contains Radius Resource Type definitions and Recipes for deploying those resource types. It includes:
+This repository contains the Resource Type definitions and Recipes for deploying those resource types via [Radius](https://radapp.io/). It includes:
 
 - **Resource Type Defintions**: Schema definitions for resource types available for developers to use while defining their application
 - **Recipes**: Platform-specific Infrastructure as Code used to deploy the associated resource type
-- **Recipe Packs**: Bundled collections of Recipes organized compute platform or deployment scenario
+- **Recipe Packs**: Bundled collections of Recipes organized compute platform or deployment scenario (coming soon)
 
 ## What are Resource Types?
 
@@ -58,9 +58,17 @@ resource-types-contrib/
 
 ```
 
+
 ## Contributing
 
-Community members can contribute new Resource Types, Recipes and Recipe Packs to this repository. Follow the [Contribution.md](CONTRIBUTING.MD) guidelines for more information.
+Community members can contribute new Resource Types, Recipes, and Recipe Packs to this repository. We welcome contributions in many forms: submitting issues, writing code, participating in discussions, reviewing pull requests. For information on contributing, follow these guides:
+
+- [Contributing Resource Types and Radius Recipes](https://github.com/radius-project/resource-types-contrib/blob/main/contributing-docs/contributing-resource-types-recipes.md): This guide provides an overview of how to write a resource type and one or more recipes.
+- Contributing Recipe Packs: Coming soon!
+- [Submitting Issues](https://github.com/radius-project/resource-types-contrib/blob/main/contributing-docs/contributing-issues.md): This guide provides an overview of how to submit issues related to resource types or recipes.
+
+
+Follow the [Contribution.md](CONTRIBUTING.MD) guidelines for more information.
 
 ## License
 

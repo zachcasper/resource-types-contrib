@@ -24,43 +24,43 @@ Contributing a Resource Type and Recipe involves the following:
 
 Radius Resource Types and Recipes are categorized into the three maturity levels detailed below. Contributions of Resource Types and Recipes may begin at the `Alpha` or `Beta` stage and progress through to the `Stable` phase.
 
-_Stage 1 : Alpha_
+_Stage 1: Alpha_
 
-    Purpose: Enable community members to contribute resource types and Recipes with minimal barriers
+    Purpose: Enable community members to contribute Resource Types and Recipes with minimal barriers
     Audience: Developers/Contributors exploring new technologies or learning Radius
     Requirements:
-        - Resource type schema Validation: YAML schema passes validation
+        - Resource Type schema validation: YAML schema passes validation
         - Single Recipe: At least one working recipe for any cloud provider or platform
-        - Basic Documentation: README with usage examples
-        - Manual Testing: Evidence of local testing by contributor
-        - Maintainer Review: Formal review and approval by Radius maintainers
+        - Basic documentation: README with usage examples
+        - Manual testing: Evidence of local testing by contributor
+        - Maintainer review: Formal review and approval by Radius maintainers
 
 _Stage 2 : Beta_
 
     Purpose: Ensure contributions meet production-ready standards with comprehensive testing and documentation
     Audience: Contributors seeking to have their resource types included in official Radius releases
     Requirements:
-        - Multi-Platform Support: Recipes for all three platforms ( AWS, Azure, Kubernetes)
-        - IAC Support: Recipes for both Bicep and Terraform
-        - Automated Testing: Functional tests that validate resource type and Recipes
-        - Documentation: Detailed README with Recipe coverage, troubleshooting guides, and best practices
-        - Ownership: Designated owner for the resource type and Recipe
-        - Maintainer Review: Formal review and approval by Radius maintainers
+        - Multi-platform support: Recipes for all three platforms (AWS, Azure, and Kubernetes)
+        - IAC support: Recipes for both Bicep and Terraform
+        - Automated testing: Functional tests that validate the Resource Type and Recipes
+        - Documentation: Detailed README written for platform engineers describing Recipe behavior as well as developer documentation in the description fields of the Resource Type definition
+        - Ownership: Designated owner for the Resource Type and Recipe
+        - Maintainer review: Formal review and approval by Radius maintainers
 
 _Stage 3 : Stable_
 
-    Purpose: Establish Resource types and Recipes as officially supported and maintained by the Radius project
-    Audience: Enterprise users doing production deployments and seeking stable, well-tested Resource types and Recipes
+    Purpose: Establish Resource Types and Recipes as officially supported and maintained by the Radius project
+    Audience: Enterprise users doing production deployments and seeking stable, well-tested Resource Types and Recipes
     Requirements:
-        - Functional tests have 100% coverage and results for Resource type schema and Recipe
-        - Integration Testing: Full integration with Radius CI/CD pipeline and release process
-        - Documentation: Complete user guides, troubleshooting, and best practices
-        - Ownership (Resource type and Kubernetes Recipe): Radius maintainers assume ownership of the resource type schema and Kubernetes Recipe
-        - Ownership (cloud Recipes): Contributor designates a committed owner for the cloud platform Recipes (e.g. AWS and/or Azure)
-        - SLA Commitment: Defined support level and response time commitments from cloud platform Recipe owners
-        - Maintainer Review: Formal review and approval by Radius maintainers
+        - Functional tests have 100% coverage and results for Resource Type definition and Recipes
+        - Integration testing: Full integration with Radius CI/CD pipeline and release process
+        - Documentation: Well proven platform engineer and developer documentation
+        - Ownership (Resource Type and Kubernetes Recipes): Radius maintainers assume ownership of the Resource Type definition and Kubernetes Recipes
+        - Ownership (cloud provider Recipes): Contributor designates a committed owner for the cloud provider Recipes (e.g. AWS and Azure)
+        - SLA commitment: Defined support level and response time commitments from cloud platform Recipe owners
+        - Maintainer review: Formal review and approval by Radius maintainers
     
-## Resource Type Schema
+## Resource Type Definition
 
 ### 1. Choose a Resource Type
 
@@ -76,13 +76,13 @@ git clone https://github.com/<your-username>/resource-types-contrib.git
 
 ### 3. Create a new Resource Type directory
 
-Create a new directory for your resource type under the appropriate category. For eg: if you are contributing a new `redisCache` resource type, the directory structure should look like this:
+Create a new directory for your resource type under the appropriate category. For example if you are contributing a new `redisCaches` resource type, the directory structure should look like this:
 
 ```
 resource-types-contrib/
 └── data/
- └── redis/
-  ├── redis.yaml
+ └── redisCaches/
+  ├── redisCaches.yaml
   ├── README.md
   └── recipes/
     ├── aws-memorydb/
@@ -92,79 +92,220 @@ resource-types-contrib/
     │   └── terraform/
     │       ├── main.tf
     │       └── var.tf
-    ├── azure-rediscache/
+    ├── azure-cache/
     │   ├── bicep/
+    │   │   ├── azure-cache.bicep
+    │   │   └── azure-cache.params
     │   └── terraform/
+    │       ├── main.tf
+    │       └── var.tf    
     └── kubernetes/
-      ├── bicep/
-      └── terraform/
+        ├── bicep/
+        │   ├── kubernetes-redis.bicep
+        │   └── kubernetes-redis.params
+        └── terraform/
+            ├── main.tf
+            └── var.tf
 ```
 
-### 4. Define Your Resource Type Schema
+### 4. Define Your Resource Type Definition
 
-For eg: if you are contributing to a `redisCaches` resource type, create a `redis.yaml` file that defines your resource type schema:
+For example, if you are contributing to a `redisCaches` resource type, create a `redisCaches.yaml` file that defines the `redisCaches` Resource Type. The initial version may look similar to:
 
 ```yaml
 namespace: Radius.Data
 types:
   redisCaches:
     apiVersions:
-      '2025-07-24-preview':
+      '2025-08-01-preview':
         schema: 
           type: object
           properties:
             environment:
               type: string
-              description: The Radius environment ID to which the resource belongs to
             application:
               type: string
-              description: The Radius application ID to which the resource belongs to
             capacity:
               type: string
-              description: The size of the Redis Cache instance. Valid values are S, M, L
+              enum: [S, M, L, XL]
             host:
               type: string
-              description: The Redis host name.
               readOnly: true
             port:
               type: string
-              description: The Redis port
               readOnly: true
             username:
               type: string
-              description: The username for the Redis cache.
               readOnly: true
             secrets:
               type: object
               properties:
-                connectionString:
-                  type: string
-                  description: The connection string for the Redis cache
-                  readOnly: true
                 password:
                   type: string
-                  description: The password for the Redis cache.
                   readOnly: true
         required:
             - environment
+            - application
 ```
 
 #### Schema Guidelines
 
-The following guidelines should be followed when contributing resource types:
+The following guidelines should be followed when contributing new Resource Types:
 
 - The `namespace` field follows the format `Radius.<Category>`, where `<Category>` is a high-level grouping (e.g., Data, Dapr, AI). Some examples might be `Radius.Data/*` or `Radius.Security/*`.
 
-- The resource type name follows the camelCase convention and is in plural form, such as `redisCaches`, `sqlDatabases`, or `rabbitMQQueues`.
+- The Resource Type name follows the camelCase convention and is in plural form, such as `redisCaches`, `sqlDatabases`, or `rabbitMQQueues`.
 
-- Version should be the latest date and follow the format `YYYY-MM-DD-preview`. This is the date on which the contribution is made or when the resource type is tested and validated, e.g. `2025-07-20-preview`. 
+- Version should be the latest date and follow the format `YYYY-MM-DD-preview`. This is the date on which the contribution is made or when the Resource Type is tested and validated, e.g. `2025-07-20-preview`. Once the Resource Types has reached the Stable maturity level, the `-preview` suffix is removed.
 
-- Properties should follow the camel Case convention and include a description for each property. 
-    - `readOnly:true` set for property automatically populated by Radius Recipes.
-    - `type` could be `integer`, `string` or `object`; Support `array` and `enum` in progress
-    - `required` for required properties. `environment` should always be a required property.
+- The description property must be populated with developer documentation. The top-level descrption and each property's description are output by `rad resource-type show` and will be visible in the Radius Dashboard in the future. See documentation section for more details.
 
-- Make sure the schema is simple and intuitive, avoiding unnecessary complexity.
+- Each Resource Type will have one or more common properties:
+   - `environment` must always be a required property.
+   - `application` must always be an optional property.
+
+- Each additional properties must:
+    - Follow the camelCase naming convention.
+    - Include a description for each property (see documentation section for more details).
+    - Properties that are required must be listed in the `required` block.
+    - Properties that are set by the Recipe only after the resource is deployed must be marked as `readOnly: true`.
+    - Have a `type`. Valid types are:`integer`, `string`, `object`, `enum`, and `array`.
+    
+- Resource Types are made for developers and must be application-oriented. Avoid infrastructure-specific or platform-specific properties. Make sure the schema is simple and intuitive, avoiding unnecessary complexity.
+
+## Document Your Resource Type and Recipes
+
+Each resource type has two types of documentation written specifically for developers, and separately, for platform engineers.
+
+### Developers
+Developer documentation is embedded in the resource type definition. Each resource type definition must have documentation on how and when to use the resource in the top-level description property. Each property must also include:
+ - The overall description of the property including example values.
+ - Whether the property is required or optional.
+ - If the property is an enum, the value values.
+
+When setting the description of properties:
+ - Unquoted strings are preferred, avoid special characters such as `:`, `{`, `}`, `[`, `]`, `,`, `&`, `*`, `#`, `?`, `|`, `-`, `<`, `>`, `=`, `!`, `%`, `@`, and `\`.
+ - Prefix the description with `(Required)`, `(Optional)`, or `(Read Only)`.
+ - If an enum, do not add valid values in the description.
+ - Do not specify what the default value of an enum is since this is Recipe dependent.
+ - Denote values using `backquotes`. 
+
+For example, the initial `redisCaches` Resource Type from above must be enhanced with developer documentation:
+
+```yaml
+namespace: Radius.Data
+types:
+  redisCaches:
+    description: |
+      The Radius.Data/redisCaches Resource Type adds a Redis cache to an application. Start by adding a redisCaches resource to your application definition Bicep file:
+
+        resource redis 'Radius.Data/redisCaches@2025-08-01-preview' = {
+          name: 'redis'
+          properties: {
+            application: todolist.id
+            environment: environment
+            capacity: 'M'
+          }
+        }
+
+      Then add a connection from a Container resource to the Redis resource.
+
+        resource myContainer 'Radius.Compute/containers@2025-08-01-preview' = {
+          name: 'myContainer'
+          properties: { ... }
+          connections: {
+            redis: {
+              source: redis.id
+            }
+          }
+        }
+    apiVersions:
+      '2025-08-01-preview':
+        schema: 
+          type: object
+          properties:
+            environment:
+              type: string
+              description: (Required) The Radius environment ID. Typically set by the rad CLI. Typically value should be `environment`.
+            application:
+              type: string
+              description: (Required) The Radius application ID. `todolist.id` for example.
+            capacity:
+              type: string
+              enum: [S, M, L, XL]
+              description: (Optional) The capacity of the Redis cache.
+            host:
+              type: string
+              readOnly: true
+              description: (Read Only) The hostname used to connect to the Redis server.
+            port:
+              type: string
+              readOnly: true
+              description: (Read Only) The network port used to connect of the Redis server.
+            username:
+              type: string
+              readOnly: true
+              description: (Read Only) The username used to connect to Redis server.
+            secrets:
+              type: object
+              properties:
+                password:
+                  type: string
+                  readOnly: true
+                  description: (Read Only) The password used to connect to the Redis server.
+          required:
+            - environment
+            - application
+```
+
+### Platform Engineers
+
+Documentation for platform engineers must be provided in a `README.md` file in the Resource Type directory. This README should focus on describing the Recipes and the requirements for building a custom Recipe for the Resource Type. This file should include:
+
+```
+## Overview
+
+A brief description of the Resource Type and its purpose.
+
+## Recipes
+
+A list of available Recipes for this resource type, including links to the Bicep and Terraform templates.:
+
+|Platform| IaC Language| Recipe Name | Stage |
+|---|---|---|
+| AWS | Bicep | aws-memorydb.bicep | Alpha |
+| AWS | Terraform | aws-memorydb/main.tf | Alpha |
+| Azure | Bicep | azure-rediscache.bicep | Alpha |
+| Azure | Terraform | azure-rediscache/main.tf | Alpha |
+| Kubernetes | Bicep | kubernetes.bicep | Alpha |
+| Kubernetes | Terraform | kubernetes/main.tf | Alpha |
+
+## Input Properties
+
+A list of properties set by developers and a description of their purpose when authoring a Recipe. 
+
+## Read-only Properties
+
+A list of read-only properties which are required to be set by the Recipe.
+```
+
+Create a `README.md` file in each Recipe directory to provide specific instructions for using that Recipe. Include:
+
+```
+## Recipe Description
+A brief description of what the Recipe does and how to use it.
+
+## Usage Instructions
+
+```
+
+### Documentation Guidelines
+
+- Include overview of the Resource Type and its purpose
+- Provide clear instructions for using the Resource Type and Recipes
+- Document any special requirements or limitations
+- Provide troubleshooting guidance
+- Link to relevant external documentation
 
 ## Recipes for the Resource Type
 
@@ -374,49 +515,3 @@ output "result" {
 - Provide outputs required to connect to the resource provisioned by the Recipe.
 - Use core Radius resource types like `containers`, `gateway` and `secrets` where applicable to ensure consistency and reusability.
 - Use comments to explain complex logic or important decisions in your Recipe code.
-
-## Document Your Resource Type and Recipes
-
-Create a `README.md` file in your resource type directory. This file should include:
-
-```
-## Overview
-
-A brief description of the resource type and its purpose.
-
-## Resource Type Schema Definition
-
-A list of properties and their descriptions, including required properties.
-
-## Recipes
-
-A list of available Recipes for this resource type, including links to the Bicep and Terraform templates.:
-
-|Platform| IaC Language| Recipe Name | Stage |
-|---|---|---|
-| AWS | Bicep | aws-memorydb.bicep | Alpha |
-| AWS | Terraform | aws-memorydb/main.tf | Alpha |
-| Azure | Bicep | azure-rediscache.bicep | Alpha |
-| Azure | Terraform | azure-rediscache/main.tf | Alpha |
-| Kubernetes | Bicep | kubernetes.bicep | Alpha |
-| Kubernetes | Terraform | kubernetes/main.tf | Alpha |
-
-```
-
-Create a `README.md` file in each Recipe directory to provide specific instructions for using that Recipe. Include:
-
-```
-## Recipe Description
-A brief description of what the Recipe does and how to use it.
-
-## Usage Instructions
-
-```
-
-### Documentation Guidelines
-
-- Include overview of the Resource Type and its purpose
-- Provide clear instructions for using the Resource Type and Recipes
-- Document any special requirements or limitations
-- Provide troubleshooting guidance
-- Link to relevant external documentation
