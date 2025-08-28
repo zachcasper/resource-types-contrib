@@ -60,9 +60,9 @@ resource-types-contrib/
 
 Community members can contribute new Resource Types, Recipes, and Recipe Packs to this repository. We welcome contributions in many forms: submitting issues, writing code, participating in discussions, reviewing pull requests. For information on contributing, follow these guides:
 
-- [Contributing Resource Types and Radius Recipes](https://github.com/radius-project/resource-types-contrib/blob/main/docs/contributing/contributing-resource-types-recipes.md): This guide provides an overview of how to write a Resource Type and one or more Recipes.
+- [Contributing Resource Types and Radius Recipes](docs/contributing/contributing-resource-types-recipes.md): This guide provides an overview of how to write a Resource Type and one or more Recipes.
 - Contributing Recipe Packs: Coming soon!
-- [Submitting Issues](https://github.com/radius-project/resource-types-contrib/blob/main/docs/contributing/contributing-issues.md): This guide provides an overview of how to submit issues related to Resource Types or Recipes.
+- [Submitting Issues](docs/contributing/contributing-issues.md): This guide provides an overview of how to submit issues related to Resource Types or Recipes.
 
 ## License
 
