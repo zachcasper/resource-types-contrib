@@ -17,8 +17,8 @@ Contributing a Resource Type and Recipe involves the following:
 1. [**Resource Type Definition**](#resource-type-definition): Defines the structure and properties of your Resource Type
 2. [**Recipes**](#recipes-for-the-resource-type): Terraform or Bicep templates for deploying the Resource on different platforms
 3. [**Documentation**](#document-your-resource-type-and-recipes): Providing clear usage examples and instructions
-4. [**Testing**](/resource-types-contrib/contributing-docs/testing-resource-types-recipes.md): Ensuring your Resource Type works as expected in a Radius Environment
-5. [**Submission**](/resource-types-contrib/contributing-docs/submitting-contribution): Creating a pull request with your changes
+4. [**Testing**](testing-resource-types-recipes.md): Ensuring your Resource Type works as expected in a Radius Environment
+5. [**Submission**](submitting-contribution.md): Creating a pull request with your changes
 
 ## Maturity Levels
 
