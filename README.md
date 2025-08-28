@@ -22,7 +22,7 @@ Recipe Packs are collections of Recipes that are grouped together to provide a c
 
 ## Repository Structure
 
-```
+```text
 resource-types-contrib/
 ├── <resource_type_namespace>/          # Namespace excluding Radius; the namespace Radius.Data is in the Data directory
 │   └── <resource_type_name>/           # e.g., redisCaches/
@@ -56,15 +56,13 @@ resource-types-contrib/
     └── ...
 ```
 
-
 ## Contributing
 
 Community members can contribute new Resource Types, Recipes, and Recipe Packs to this repository. We welcome contributions in many forms: submitting issues, writing code, participating in discussions, reviewing pull requests. For information on contributing, follow these guides:
 
-- [Contributing Resource Types and Radius Recipes](https://github.com/radius-project/resource-types-contrib/blob/main/contributing-docs/contributing-resource-types-recipes.md): This guide provides an overview of how to write a Resource Type and one or more Recipes.
+- [Contributing Resource Types and Radius Recipes](https://github.com/radius-project/resource-types-contrib/blob/main/docs/contributing/contributing-resource-types-recipes.md): This guide provides an overview of how to write a Resource Type and one or more Recipes.
 - Contributing Recipe Packs: Coming soon!
-- [Submitting Issues](https://github.com/radius-project/resource-types-contrib/blob/main/contributing-docs/contributing-issues.md): This guide provides an overview of how to submit issues related to Resource Types or Recipes.
-
+- [Submitting Issues](https://github.com/radius-project/resource-types-contrib/blob/main/docs/contributing/contributing-issues.md): This guide provides an overview of how to submit issues related to Resource Types or Recipes.
 
 ## License
 
