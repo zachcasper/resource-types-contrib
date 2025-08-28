@@ -14,7 +14,7 @@ Before you begin, ensure you have basic understanding of Radius concepts and the
 
 Contributing a Resource Type and Recipe involves the following:
 
-1. [**Resource Type Schema**](#resource-type-schema): Defines the structure and properties of your Resource Type
+1. [**Resource Type Definition**](#resource-type-definition): Defines the structure and properties of your Resource Type
 2. [**Recipes**](#recipes-for-the-resource-type): Terraform or Bicep templates for deploying the Resource on different platforms
 3. [**Documentation**](#document-your-resource-type-and-recipes): Providing clear usage examples and instructions
 4. [**Testing**](/resource-types-contrib/contributing-docs/testing-resource-types-recipes.md): Ensuring your Resource Type works as expected in a Radius Environment
