@@ -1,2 +1,3 @@
 **/*.tgz
 **/bicepconfig.json
+node_modules/
