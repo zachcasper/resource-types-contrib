@@ -1,0 +1,16 @@
+# This test uninstalls Radius
+run:
+  uninstallRadius:
+    prerequisiteCwd: ..
+    prerequisites:
+      - rad environment delete test --group test -y
+      - rad group delete test -y
+      - rad uninstall kubernetes --purge
+      - rad workspace delete -y
+      - rm bicepconfig.json
+      - rm radiusResources.tgz
+    command: rad version
+    expectCode: 0
+    outputContains:
+      - "Control Plane Information:"
+      - "Not installed"

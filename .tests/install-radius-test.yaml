@@ -1,0 +1,39 @@
+# This test installs the edge version of Radius and creates a test Resource Group and Environment
+# Prerequisites: Judo, Kubernetes cluster, kubectl installed, and kube-context set property
+#
+# Install Judo:
+# $ npm i -g @intuit/judo
+#
+# Execute test:
+# $ judo 1-radius-install-test.yaml
+#
+run:
+  verifyKubernetes:
+    command: kubectl get pods 
+    expectCode: 0
+  verifyRadiusInstall:
+    prerequisiteCwd: ..
+    prerequisites:
+      # TODO: Handle sudo password prompt
+      - curl -fsSL "https://raw.githubusercontent.com/radius-project/radius/main/deploy/install.sh" | /bin/bash -s edge
+      - rad install kubernetes --skip-contour-install --set dashboard.enabled=false
+      - rad group create test
+      # Wait while Radius starts up. Avoids getting the message "location global not found for resource provider Applications.Core"
+      - sleep 20s
+      - rad environment create test --group test
+      - rad workspace create kubernetes test --group test --environment test --force
+    command: rad version
+    expectCode: 0
+    outputContains:
+      - "Control Plane Information:"
+      - "Installed"
+  verifyRadiusGroup:
+    command: rad group show
+    expectCode: 0
+    outputContains:
+      - "/planes/radius/local/resourcegroups/test"
+  verifyRadiusEnvironment:
+    command: rad environment show
+    expectCode: 0
+    outputContains:
+      - "/test.*Applications.Core/environments/"
