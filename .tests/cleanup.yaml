@@ -7,6 +7,7 @@ run:
       - rad group delete test -y
       - rad uninstall kubernetes --purge
       - rad workspace delete -y
+      # TODO: File paths are wrong
       - rm bicepconfig.json
       - rm radiusResources.tgz
     command: rad version
