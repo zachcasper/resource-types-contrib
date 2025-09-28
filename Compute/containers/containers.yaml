@@ -236,10 +236,13 @@ types:
                             items:
                               type: object
                               properties:
+                                name:
+                                  type: string
+                                  description: (Required) The header field name.
                                 value:
                                   type: string
                                   description: (Required) The header field value.
-                              required: [value]
+                              required: [name, value]
                           scheme:
                             type: string
                             enum: [http, https]
@@ -302,10 +305,13 @@ types:
                             items:
                               type: object
                               properties:
+                                name:
+                                  type: string
+                                  description: (Required) The header field name.
                                 value:
                                   type: string
                                   description: (Required) The header field value.
-                              required: [value]
+                              required: [name, value]
                           scheme:
                             type: string
                             enum: [http, https]
@@ -351,10 +357,6 @@ types:
                       resourceId:
                         type: string
                         description: (Required) The Radius PersistentVolume resource ID.
-                      accessMode:
-                        type: string
-                        enum: [ReadWriteOnce, ReadOnlyMany, ReadWriteMany]
-                        description: (Optional) Set to `ReadWriteOnce` if no other Containers can mount in read/write mode. Set to `ReadOnlyMany` to enable other Containers to mount in read-only mode. Set to `ReadWriteMany` to allow multiple containers to mount in read/write mode. Assumed to be `ReadWriteOnce` if not specified.
                   secretId:
                     type: string
                     description: (Optional) The Radius Secret resource ID.
