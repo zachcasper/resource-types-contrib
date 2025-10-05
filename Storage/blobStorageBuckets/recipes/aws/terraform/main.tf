@@ -204,8 +204,6 @@ output "result" {
       awsSecretAccessKey = ""
       roleArn            = aws_iam_role.s3_access.arn
     }
-    # UCP resource IDs for cleanup
-    resources = []
   }
   description = "The result of the Recipe. Must match the blobStorageBuckets resource schema."
   sensitive   = true
