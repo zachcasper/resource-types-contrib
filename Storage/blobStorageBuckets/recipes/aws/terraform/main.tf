@@ -105,7 +105,7 @@ resource "aws_iam_role" "s3_access" {
         Principal = {
           # Allow the current AWS account to assume this role
           # This can be further restricted to specific services or resources
-          AWS = "arn:${try(var.context.runtime.aws.partition, "aws")}:iam::${var.context.runtime.aws.accountId}:root"
+          AWS = "arn:aws:iam::${var.context.aws.accountId}:root"
         }
         Action = "sts:AssumeRole"
       },
@@ -198,8 +198,8 @@ output "result" {
       roleArn            = aws_iam_role.s3_access.arn
     }
     resources = [
-      "/planes/aws/aws/accounts/${var.context.runtime.aws.accountId}/regions/${aws_s3_bucket.blob_storage.region}/providers/AWS.S3/Bucket/${aws_s3_bucket.blob_storage.id}",
-      "/planes/aws/aws/accounts/${var.context.runtime.aws.accountId}/regions/global/providers/AWS.IAM/Role/${aws_iam_role.s3_access.name}"
+      "/planes/aws/aws/accounts/${var.context.aws.accountId}/regions/${aws_s3_bucket.blob_storage.region}/providers/AWS.S3/Bucket/${aws_s3_bucket.blob_storage.id}",
+      "/planes/aws/aws/accounts/${var.context.aws.accountId}/regions/global/providers/AWS.IAM/Role/${aws_iam_role.s3_access.name}"
     ]
   }
   description = "The result of the Recipe. Must match the blobStorageBuckets resource schema."
