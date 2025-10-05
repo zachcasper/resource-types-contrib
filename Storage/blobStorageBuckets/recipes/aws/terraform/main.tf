@@ -17,19 +17,6 @@ variable "context" {
   type        = any
 }
 
-# Configure AWS Provider
-provider "aws" {
-  region = try(var.context.runtime.aws.region, "us-east-1")
-  
-  default_tags {
-    tags = {
-      "radapp.io/environment" = var.context.environment.name
-      "radapp.io/application"  = var.context.application != null ? var.context.application.name : ""
-      "radapp.io/resource"     = var.context.resource.name
-    }
-  }
-}
-
 # Generate a unique bucket name
 resource "random_string" "bucket_suffix" {
   length  = 8
