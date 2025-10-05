@@ -17,6 +17,18 @@ variable "context" {
   type        = any
 }
 
+# Configure AWS Provider
+provider "aws" {
+  region = try(var.context.runtime.aws.region, "us-east-1")
+  
+  default_tags {
+    tags = {
+      "radapp.io/environment" = var.context.environment.name
+      "radapp.io/application"  = var.context.application != null ? var.context.application.name : ""
+      "radapp.io/resource"     = var.context.resource.name
+    }
+  }
+}
 
 # Generate a unique bucket name
 resource "random_string" "bucket_suffix" {
@@ -94,12 +106,6 @@ resource "aws_s3_bucket_lifecycle_configuration" "blob_storage" {
   }
 }
 
-# Data source to get current AWS account ID
-data "aws_caller_identity" "current" {}
-
-# Data source to get the AWS partition (aws, aws-cn, aws-us-gov)
-data "aws_partition" "current" {}
-
 # IAM Role for S3 access (can be assumed by applications)
 resource "aws_iam_role" "s3_access" {
   name = "${local.bucket_name}-role"
@@ -112,7 +118,7 @@ resource "aws_iam_role" "s3_access" {
         Principal = {
           # Allow the current AWS account to assume this role
           # This can be further restricted to specific services or resources
-          AWS = "arn:${data.aws_partition.current.partition}:iam::${data.aws_caller_identity.current.account_id}:root"
+          AWS = "arn:${try(var.context.runtime.aws.partition, "aws")}:iam::${var.context.runtime.aws.accountId}:root"
         }
         Action = "sts:AssumeRole"
       },
@@ -205,8 +211,8 @@ output "result" {
       roleArn            = aws_iam_role.s3_access.arn
     }
     resources = [
-      "/planes/aws/aws/accounts/${data.aws_caller_identity.current.account_id}/regions/${aws_s3_bucket.blob_storage.region}/providers/AWS.S3/Bucket/${aws_s3_bucket.blob_storage.id}",
-      "/planes/aws/aws/accounts/${data.aws_caller_identity.current.account_id}/regions/global/providers/AWS.IAM/Role/${aws_iam_role.s3_access.name}"
+      "/planes/aws/aws/accounts/${var.context.runtime.aws.accountId}/regions/${aws_s3_bucket.blob_storage.region}/providers/AWS.S3/Bucket/${aws_s3_bucket.blob_storage.id}",
+      "/planes/aws/aws/accounts/${var.context.runtime.aws.accountId}/regions/global/providers/AWS.IAM/Role/${aws_iam_role.s3_access.name}"
     ]
   }
   description = "The result of the Recipe. Must match the blobStorageBuckets resource schema."
