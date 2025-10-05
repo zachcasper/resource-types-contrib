@@ -97,9 +97,13 @@ types:
             awsAccessKeyId:
               type: string
               readOnly: true
-              description: (Read-only) The access key ID used with S3-compatible libraries. 
+              description: (Read-only) The access key ID used with S3-compatible libraries. Can be used to assume the IAM role.
             awsSecretAccessKey:
               type: string
               readOnly: true
-              description: (Read-only) The access key value used with S3-compatible libraries. 
+              description: (Read-only) The access key value used with S3-compatible libraries. Can be used to assume the IAM role.
+            roleArn:
+              type: string
+              readOnly: true
+              description: (Read-only) The ARN of the IAM role that has access to this bucket. Applications can assume this role for temporary credentials.
           required: [environment]

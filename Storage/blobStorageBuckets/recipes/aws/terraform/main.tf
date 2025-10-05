@@ -76,6 +76,9 @@ resource "aws_s3_bucket_versioning" "blob_storage" {
 }
 
 # S3 Bucket Lifecycle Configuration for storage class transitions
+# Note: AWS requires minimum transition periods:
+# - STANDARD_IA: 30 days
+# - GLACIER: 90 days (recommended, though technically 0 is allowed for direct upload)
 resource "aws_s3_bucket_lifecycle_configuration" "blob_storage" {
   count  = local.storage_class != "hot" ? 1 : 0
   bucket = aws_s3_bucket.blob_storage.id
@@ -85,15 +88,52 @@ resource "aws_s3_bucket_lifecycle_configuration" "blob_storage" {
     status = "Enabled"
     
     transition {
-      days          = 0
+      days          = local.storage_class == "cool" ? 30 : 90
       storage_class = local.s3_storage_class
     }
   }
 }
 
-# IAM User for S3 access
-resource "aws_iam_user" "s3_user" {
-  name = "${local.bucket_name}-user"
+# Data source to get current AWS account ID
+data "aws_caller_identity" "current" {}
+
+# Data source to get the AWS partition (aws, aws-cn, aws-us-gov)
+data "aws_partition" "current" {}
+
+# IAM Role for S3 access (can be assumed by applications)
+resource "aws_iam_role" "s3_access" {
+  name = "${local.bucket_name}-role"
+  
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Principal = {
+          # Allow the current AWS account to assume this role
+          # This can be further restricted to specific services or resources
+          AWS = "arn:${data.aws_partition.current.partition}:iam::${data.aws_caller_identity.current.account_id}:root"
+        }
+        Action = "sts:AssumeRole"
+      },
+      {
+        # Allow EC2 instances to assume this role
+        Effect = "Allow"
+        Principal = {
+          Service = "ec2.amazonaws.com"
+        }
+        Action = "sts:AssumeRole"
+      },
+      {
+        # Allow ECS tasks to assume this role
+        Effect = "Allow"
+        Principal = {
+          Service = "ecs-tasks.amazonaws.com"
+        }
+        Action = "sts:AssumeRole"
+      }
+    ]
+  })
   
   tags = {
     Application = var.context.application != null ? var.context.application.name : ""
@@ -101,15 +141,10 @@ resource "aws_iam_user" "s3_user" {
   }
 }
 
-# IAM Access Key for the user
-resource "aws_iam_access_key" "s3_user" {
-  user = aws_iam_user.s3_user.name
-}
-
 # IAM Policy for bucket access
-resource "aws_iam_user_policy" "s3_access" {
+resource "aws_iam_role_policy" "s3_access" {
   name = "${local.bucket_name}-policy"
-  user = aws_iam_user.s3_user.name
+  role = aws_iam_role.s3_access.id
   
   policy = jsonencode({
     Version = "2012-10-17"
@@ -129,6 +164,39 @@ resource "aws_iam_user_policy" "s3_access" {
           aws_s3_bucket.blob_storage.arn,
           "${aws_s3_bucket.blob_storage.arn}/*"
         ]
+      }
+    ]
+  })
+}
+
+# Create a user with limited permissions to assume the role
+# This provides credentials for applications that can't use IAM roles directly
+resource "aws_iam_user" "s3_user" {
+  name = "${local.bucket_name}-user"
+  
+  tags = {
+    Application = var.context.application != null ? var.context.application.name : ""
+    Bucket      = local.bucket_name
+  }
+}
+
+# IAM Access Key for the user
+resource "aws_iam_access_key" "s3_user" {
+  user = aws_iam_user.s3_user.name
+}
+
+# Allow the user to assume the S3 access role
+resource "aws_iam_user_policy" "assume_role" {
+  name = "${local.bucket_name}-assume-role-policy"
+  user = aws_iam_user.s3_user.name
+  
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect   = "Allow"
+        Action   = "sts:AssumeRole"
+        Resource = aws_iam_role.s3_access.arn
       }
     ]
   })
@@ -162,10 +230,12 @@ output "result" {
       uniqueName   = aws_s3_bucket.blob_storage.id
       region       = aws_s3_bucket.blob_storage.region
       endpointUrl  = "https://s3.${aws_s3_bucket.blob_storage.region}.amazonaws.com"
+      roleArn      = aws_iam_role.s3_access.arn
     }
     secrets = {
       awsAccessKeyId     = aws_iam_access_key.s3_user.id
       awsSecretAccessKey = aws_iam_access_key.s3_user.secret
+      roleArn            = aws_iam_role.s3_access.arn
     }
     # UCP resource IDs for cleanup
     resources = []
