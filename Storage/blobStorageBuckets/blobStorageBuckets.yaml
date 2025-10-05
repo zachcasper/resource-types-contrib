@@ -1,0 +1,105 @@
+namespace: Radius.Storage
+types:
+  blobStorageBuckets:
+    description: |
+      The Radius.Storage/blobStorageBuckets Resource Type represents an S3 API-compatible storage bucket. Applications can read and write blobs using the S3 API. Common libraries such as the Python boto3 library can be used as clients. To deploy, first add a BlobStorageBucket resource to the application definition Bicep file.
+      
+      ```
+      extension radius
+      param environment string 
+
+      resource myApplication 'Radius.Core/applications@2025-08-01-preview' = { ... }
+
+      resource myBlobStorageBucket 'Radius.Compute/blobStorageBuckets@2025-08-01-preview' = {
+        name: 'myBlobStorageBucket'
+        properties: {
+          environment: environment
+          application: myApplication.id
+        }
+      }
+      ```
+
+      Then add a connection from a Container to the BlobStorageBucket.
+
+      ```
+      resource myContainer 'Radius.Compute/containers@2025-08-01-preview' = {
+        name: 'myContainer'
+        properties: {
+          environment: environment
+          application: myApplication.id
+          containers: {
+            frontend: {
+              image: 'frontend:v1.0'
+            }
+          }
+          connections: {
+            myBlobStorageBucket: {
+              source: {
+                resourceId: myBlobStorageBuckets.id
+              }
+            }
+          }
+        }
+      }
+      ```
+      
+      Within your container, your application code can obtain the uniqueName, region, endpointUrl, awsAccessKeyId, and awsSecretAccessKey via environment variables that are automatically created. 
+
+      - CONNECTION_MYBLOCSTORAGEBUCKET_UNIQUENAME
+      - CONNECTION_MYBLOCSTORAGEBUCKET_REGION
+      - CONNECTION_MYBLOCSTORAGEBUCKET_ENDPOINTURL
+      - CONNECTION_MYBLOCSTORAGEBUCKET_AWSACCESSKEYID
+      - CONNECTION_MYBLOCSTORAGEBUCKET_AWSSECRETACCESSKEY
+
+    apiVersions:
+      '2025-08-01-preview':
+        schema: 
+          type: object
+          properties:
+            environment:
+              type: string
+              description: (Required) The Radius Environment ID. Typically set by the rad CLI. Typically value should be `environment`.
+            application:
+              type: string
+              description: (Optional) The Radius Application ID. `myApplication.id` for example.
+            class:
+              type: string
+              enum: [cold, cool, hot]
+              description: (Optional) The storage class. Use `hot` for frequent accessed data, `cool` for infrequently accessed data, and `cold` for archived data. It not specified, `hot` is assumed.
+            accessControl:
+              type: object
+              description: (Optional) Read/write access permissions for the storage bucket.
+              properties:
+                application: 
+                  type: string
+                  enum: [None, Read, ReadWrite]
+                  description: (Optional) Access permissions for this application. If not specified, `ReadWrite` is assumed.
+                group: 
+                  type: string
+                  enum: [None, Read, ReadWrite]
+                  description: (Optional) Access permissions for other resources within the same Radius Resource Group. If not specified, `ReadWrite` is assumed.
+                public: 
+                  type: string
+                  enum: [None, Read]
+                  description: (Optional) Access permissions for unauthorized public clients. If not specified, `None` is assumed.
+            uniqueName:
+              type: string
+              readOnly: true
+              description: (Read-only) The globally unique named for the storage bucket. May be different from the original name of the resource.
+            region:
+              type: string
+              readOnly: true
+              description: (Read-only) The region name of the storage bucket. Used with S3-compatible libraries. 
+            endpointUrl:
+              type: string
+              readOnly: true
+              description: (Read-only) The API endpoint URL used with S3-compatible libraries. 
+            awsAccessKeyId:
+              type: string
+              readOnly: true
+              description: (Read-only) The access key ID used with S3-compatible libraries. 
+            awsSecretAccessKey:
+              type: string
+              readOnly: true
+              description: (Read-only) The access key value used with S3-compatible libraries. 
+          required: [environment]
