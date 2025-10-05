@@ -204,6 +204,10 @@ output "result" {
       awsSecretAccessKey = ""
       roleArn            = aws_iam_role.s3_access.arn
     }
+    resources = [
+      "/planes/aws/aws/accounts/${data.aws_caller_identity.current.account_id}/regions/${aws_s3_bucket.blob_storage.region}/providers/AWS.S3/Bucket/${aws_s3_bucket.blob_storage.id}",
+      "/planes/aws/aws/accounts/${data.aws_caller_identity.current.account_id}/regions/global/providers/AWS.IAM/Role/${aws_iam_role.s3_access.name}"
+    ]
   }
   description = "The result of the Recipe. Must match the blobStorageBuckets resource schema."
   sensitive   = true
