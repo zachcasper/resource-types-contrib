@@ -169,39 +169,6 @@ resource "aws_iam_role_policy" "s3_access" {
   })
 }
 
-# Create a user with limited permissions to assume the role
-# This provides credentials for applications that can't use IAM roles directly
-resource "aws_iam_user" "s3_user" {
-  name = "${local.bucket_name}-user"
-  
-  tags = {
-    Application = var.context.application != null ? var.context.application.name : ""
-    Bucket      = local.bucket_name
-  }
-}
-
-# IAM Access Key for the user
-resource "aws_iam_access_key" "s3_user" {
-  user = aws_iam_user.s3_user.name
-}
-
-# Allow the user to assume the S3 access role
-resource "aws_iam_user_policy" "assume_role" {
-  name = "${local.bucket_name}-assume-role-policy"
-  user = aws_iam_user.s3_user.name
-  
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect   = "Allow"
-        Action   = "sts:AssumeRole"
-        Resource = aws_iam_role.s3_access.arn
-      }
-    ]
-  })
-}
-
 # Bucket policy for public read access if configured
 resource "aws_s3_bucket_policy" "public_read" {
   count  = local.access_public == "Read" ? 1 : 0
@@ -233,8 +200,8 @@ output "result" {
       roleArn      = aws_iam_role.s3_access.arn
     }
     secrets = {
-      awsAccessKeyId     = aws_iam_access_key.s3_user.id
-      awsSecretAccessKey = aws_iam_access_key.s3_user.secret
+      awsAccessKeyId     = ""
+      awsSecretAccessKey = ""
       roleArn            = aws_iam_role.s3_access.arn
     }
     # UCP resource IDs for cleanup
