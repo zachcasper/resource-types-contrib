@@ -10,31 +10,55 @@ types:
 
       resource myApplication 'Radius.Core/applications@2025-08-01-preview' = { ... }
 
-      resource myVM 'Radius.Compute/containers@2025-08-01-preview' = {
+      resource myVM 'Radius.Compute/virtualMachines@2025-08-01-preview' = {
         name: 'myVM'
         properties: {
           environment: environment
           application: myApplication.id
-          cpu: '2'
           operatingSystem: 'Linux'
+          sshKey: {
+            secretKeyRed: {
+              secretId: passwordSecret.id
+              key: 'rootPassword'
+            }
+          }
         }
       }
       ```
 
-      In order to access the VM, create a Secret resource to store the SSH key or Windows Administrator password. Then reference this Secret when creating the VM.
+      Then create the Radius secret to store the root password. Set a parameter to accept a password via the command line.
+
+      ```
+      @secure()
+      param rootPassword string
+
+      resource passwordSecret 'Radius.Security/secrets@2025-08-01-preview' = {
+        name: 'passwordSecret'
+        properties: {
+          environment: environment
+          application: myApplication.id
+          data:
+            rootPassword:
+              value: rootPassword
+        }
+      }
+
+      Here is another example of a Windows virtual machine.
 
       ```
       extension radius
       param environment string 
+      
+      @secure()
+      param adminPassword string
 
       resource myApplication 'Radius.Core/applications@2025-08-01-preview' = { ... }
 
-      resource myVM 'Radius.Compute/containers@2025-08-01-preview' = {
+      resource myVM 'Radius.Compute/virtualMachines@2025-08-01-preview' = {
         name: 'myVM'
         properties: {
           environment: environment
           application: myApplication.id
-          cpu: '2'
           operatingSystem: 'Windows'
           windowsAdminPassword: 
             secretKeyRef: 
@@ -42,9 +66,6 @@ types:
               key: 'adminPassword'
         }
       }
-
-      @secure()
-      param adminPassword string
 
       resource passwordSecret 'Radius.Security/secrets@2025-08-01-preview' = {
         name: 'passwordSecret'
@@ -61,18 +82,12 @@ types:
       You can run a script on boot by storing the script in a BlobStorageBucket then referencing the script.
 
       ```
-      extension radius
-      param environment string 
-
-      resource myApplication 'Radius.Core/applications@2025-08-01-preview' = { ... }
-
-      resource myVM 'Radius.Compute/containers@2025-08-01-preview' = {
+      resource myVM 'Radius.Compute/virtualMachines@2025-08-01-preview' = {
         name: 'myVM'
         properties: {
           environment: environment
           application: myApplication.id
-          cpu: '2'
-          operatingSystem: 'Windows'
+          operatingSystem: 'Linux'
           startupScript:
             blobStorageBucket:
               resourceId: startupScriptBucket.id
