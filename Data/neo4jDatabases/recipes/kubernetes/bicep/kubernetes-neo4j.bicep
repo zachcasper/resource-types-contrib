@@ -89,6 +89,10 @@ resource neo4j 'apps/StatefulSet@v1' = {
             ]
             env: [
               {
+                name: 'NEO4J_AUTH'
+                value: '${user}/${password}'
+              }
+              {
                 name: 'NEO4J_server_config_strict__validation_enabled'
                 value: 'false'
               }
@@ -118,7 +122,7 @@ resource neo4j 'apps/StatefulSet@v1' = {
 output result object = {
   resources: [
     '/planes/kubernetes/local/namespaces/${svc.metadata.namespace}/providers/core/Service/${svc.metadata.name}'
-    '/planes/kubernetes/local/namespaces/${neo4j.metadata.namespace}/providers/apps/Deployment/${neo4j.metadata.name}'
+    '/planes/kubernetes/local/namespaces/${neo4j.metadata.namespace}/providers/apps/StatefulSet/${neo4j.metadata.name}'
   ]
   values: {
     host: '${svc.metadata.name}.${svc.metadata.namespace}.svc.cluster.local'
