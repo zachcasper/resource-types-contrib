@@ -87,6 +87,12 @@ resource neo4j 'apps/StatefulSet@v1' = {
                 mountPath: '/data'
               }
             ]
+            env: [
+              {
+                name: 'NEO4J_server_config_strict__validation_enabled'
+                value: 'false'
+              }
+            ]
           }
         ]
       }
