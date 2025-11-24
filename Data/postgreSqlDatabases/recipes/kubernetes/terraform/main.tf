@@ -75,6 +75,18 @@ variable "memory" {
   }
 }
 
+variable "connection" {
+  type = object({
+    username = string
+    password = string
+  })
+
+  validation {
+    condition     = var.connection.username != "" && var.connection.password != ""
+    error_message = "Connection must have both 'username' and 'password' properties"
+  }
+}
+
 locals {
     port = 5432
     
@@ -91,6 +103,7 @@ locals {
     # Validate required properties exist
     has_username = can(local.connection.username)
     has_password = can(local.connection.password)
+
     validate_properties = (
       local.has_username && local.has_password
         ? null
