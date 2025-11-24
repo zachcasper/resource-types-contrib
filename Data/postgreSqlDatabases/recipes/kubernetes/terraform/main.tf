@@ -79,11 +79,12 @@ locals {
     port = 5432
     
     # Get the secret reference. Should be only a single connected resource.
-    # connections = try(var.context.resource.connections, {})
-    # connection = values(local.connections)[0]
-    # secretName = connection.secretName
+    connections = try(var.context.resource.connections, {})
+    connection_list = values(local.connections)
+    connection = connection_list[0]
+    secretName = connection.secretName
 
-    secretName = var.context.resource.connections.creds.secretName
+    # secretName = var.context.resource.connections.creds.secretName
 }
 
 # ========================================
