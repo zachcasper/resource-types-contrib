@@ -8,6 +8,56 @@ terraform {
   }
 }
 
+# ========================================
+# Common Radius variables
+# ========================================
+
+variable "context" {
+  description = "The Radius Recipe context variable. See https://docs.radapp.io/reference/context-schema/."
+  type = any
+}
+
+locals {
+  resource_name = var.context.resource.name
+  namespace     = var.context.runtime.kubernetes.namespace
+  
+  # Extract resource properties
+  resource_properties = try(var.context.resource.properties, {})
+
+  # Extract last segment from environment path for labels
+  environment_id    = try(local.resource_properties.environment, "")
+  environment_parts = local.environment_id != "" ? split("/", local.environment_id) : []
+  environment_label = length(local.environment_parts) > 0 ? local.environment_parts[length(local.environment_parts) - 1] : ""
+
+  # Extract resource group name
+  resource_group_name = split("/", var.context.resource.id)[4]
+
+  # Application name
+  application_name = var.context.application != null ? var.context.application.name : ""
+
+  # Build unique name with length constraint (max 63 chars for Kubernetes)
+  # Format: <app>-<resource>-<env>
+  base_name = "${local.application_name}-${local.resource_name}-${local.environment_label}"
+  
+  # If too long, abbreviate application name
+  uniqueName = length(local.base_name) > 63 ? (
+    "${substr(local.application_name, 0, max(1, 63 - length(local.resource_name) - length(local.environment_label) - 2))}-${local.resource_name}-${local.environment_label}"
+  ) : local.base_name
+
+  # Build labels
+  labels = {
+    "radapp.io/resource"       = local.resource_name
+    "radapp.io/application"    = local.application_name
+    "radapp.io/environment"    = local.environment_label
+    "radapp.io/resource-type"  = var.context.resource.type
+    "radapp.io/resource-group" = local.resource_group_name
+  }
+}
+
+# ========================================
+# Kubernetes Secret variables
+# ========================================
+
 # Local values for processing secret data
 locals {
   secret_data = var.context.resource.properties.data
@@ -31,8 +81,11 @@ locals {
     local.secret_kind == "basicAuthentication" ? "kubernetes.io/basic-auth" :
     "Opaque"
   )
-  
 }
+
+# ========================================
+# Resources
+# ========================================
 
 resource "kubernetes_secret" "secret" {
   # Validation preconditions - these will stop deployment if they fail
@@ -74,16 +127,27 @@ resource "kubernetes_secret" "secret" {
   }
   
   metadata {
-    name      = local.secret_name
-    namespace = var.context.runtime.kubernetes.namespace
-    
-    labels = {
-      resource = var.context.resource.name
-      app      = var.context.application != null ? var.context.application.name : ""
-    }
+    name      = local.uniqueName
+    namespace = local.namespace
+    labels    = local.labels
   }
   
   type = local.secret_type
   data = length(local.string_data) > 0 ? local.string_data : {}
   binary_data = length(local.base64_data) > 0 ? local.base64_data : {}
+}
+
+# ========================================
+# Output Radius result 
+# ========================================
+
+output "result" {
+  value = {
+    resources = [
+        "/planes/kubernetes/local/namespaces/${kubernetes_secret.metadata.namespace}/providers/core/Secret/${kubernetes_secret.metadata.name}"
+    ]
+    values = {
+      secretName = "${kubernetes_secret.secret.metadata[0].name}"
+    }
+  }
 }
