@@ -184,8 +184,6 @@ output "result" {
       host = "${kubernetes_service.postgres.metadata[0].name}.${kubernetes_service.postgres.metadata[0].namespace}.svc.cluster.local"
       port = local.port
       database = "postgres_db"
-      username = data.kubernetes_secret.credentials.data["username"]
-      password = data.kubernetes_secret.credentials.data["password"]
     }
   }
 }
