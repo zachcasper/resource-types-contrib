@@ -79,11 +79,10 @@ locals {
   port = 5432
     
   # Get the secret reference. Should be only a single connected resource.
-  all_conns   = try(var.context.resource.connections, {})
-  conn_list   = values(local.all_conns)
-  first_conn  = try(local.conn_list[0], null)
-
-  secret_name = first_conn != null ? lookup(first_conn, "secretName", null) : null
+  radius_connections_map      = try(var.context.resource.connections, {})
+  radius_connection_list      = values(local.radius_connections_map)
+  radius_first_connection     = try(local.radius_connection_list[0], null)
+  radius_secret_name          = radius_first_connection != null ? lookup(radius_first_connection, "secretName", null) : null
 
 }
 
@@ -125,7 +124,7 @@ resource "kubernetes_deployment" "postgresql" {
             name = "POSTGRES_USER"
             value_from {
               secret_key_ref {
-                name = local.secret_name
+                name = local.radius_secret_name
                 key  = "username"
               }
             }
@@ -134,7 +133,7 @@ resource "kubernetes_deployment" "postgresql" {
             name  = "POSTGRES_PASSWORD"
             value_from {
               secret_key_ref {
-                name = local.secret_name
+                name = local.radius_secret_name
                 key  = "password"
               }
             }
