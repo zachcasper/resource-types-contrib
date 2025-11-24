@@ -99,8 +99,8 @@ locals {
     )
 
     # Extract credentials
-    username = local.connection.properties.data.username.value
-    password = local.connection.properties.data.password.value
+    username = local.connection.data.username.value
+    password = local.connection.data.password.value
 }
 
 # ========================================
