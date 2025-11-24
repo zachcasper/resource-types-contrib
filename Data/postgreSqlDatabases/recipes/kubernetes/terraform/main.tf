@@ -76,13 +76,14 @@ variable "memory" {
 }
 
 locals {
-    port = 5432
+  port = 5432
     
-    # Get the secret reference. Should be only a single connected resource.
-    all_connections   = try(var.context.resource.connections, {})
-    connection_list   = values(local.all_connections)
-    first_connection  = try(local.connection_list[0], null)
-    secret_name       = first_connection != null ? lookup(first_connection, "secretName", null) : null
+  # Get the secret reference. Should be only a single connected resource.
+  all_conns   = try(var.context.resource.connections, {})
+  conn_list   = values(local.all_conns)
+  first_conn  = try(local.conn_list[0], null)
+
+  secret_name = first_conn != null ? lookup(first_conn, "secretName", null) : null
 
 }
 
