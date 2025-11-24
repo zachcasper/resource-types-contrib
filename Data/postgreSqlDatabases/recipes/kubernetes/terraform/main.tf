@@ -75,22 +75,6 @@ variable "memory" {
   }
 }
 
-variable "connection" {
-  type = object({
-    username = string
-    password = string
-  })
-  default = {
-    username = var.context.resource.connections.properties.username
-    password = var.context.resource.connections.properties.password
-  }
-
-  validation {
-    condition     = var.connection.username != "" && var.connection.password != ""
-    error_message = "Connection must have both 'username' and 'password' properties"
-  }
-}
-
 locals {
     port = 5432
     
