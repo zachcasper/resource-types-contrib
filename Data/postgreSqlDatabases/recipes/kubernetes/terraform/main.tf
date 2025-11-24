@@ -83,7 +83,7 @@ locals {
     connection_count = length(local.connections)
     
     # Error if not exactly one connection
-    validate_connection_count = local.connection_count == 1 ? null : tobool("ERROR: Exactly one connection to a Secrets resource is required, found ${local.connection_count}")
+    validate_connection_count = local.connection_count == 1 ? null : error("ERROR: Exactly one connection to a Secrets resource is required, found ${local.connection_count}")
     
     # Get the single connection object
     connection = values(local.connections)[0]
@@ -138,12 +138,12 @@ resource "kubernetes_deployment" "postgresql" {
               }
             }
           env {
-            name  = "POSTGRES_PASSWORD"
-            value = local.password
-          }
-          env {
             name = "POSTGRES_USER"
             value = local.username
+          }
+          env {
+            name  = "POSTGRES_PASSWORD"
+            value = local.password
           }
           env {
             name  = "POSTGRES_DB"
