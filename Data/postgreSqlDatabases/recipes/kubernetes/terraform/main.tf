@@ -81,7 +81,7 @@ locals {
     # Get the secret reference. Should be only a single connected resource.
     connections = try(var.context.resource.connections, {})
     connection = values(local.connections)[0]
-    secretName = connection.properties.secretName
+    secretName = connection.secretName
 }
 
 # ========================================
