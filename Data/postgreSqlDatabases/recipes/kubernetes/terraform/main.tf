@@ -80,6 +80,10 @@ variable "connection" {
     username = string
     password = string
   })
+  default = {
+    username = var.context.resource.connections.properties.username
+    password = var.context.resource.connections.properties.password
+  }
 
   validation {
     condition     = var.connection.username != "" && var.connection.password != ""
