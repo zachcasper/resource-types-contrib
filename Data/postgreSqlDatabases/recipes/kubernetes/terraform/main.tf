@@ -89,12 +89,12 @@ locals {
     connection = values(local.connections)[0]
     
     # Validate required properties exist
-    has_username = can(local.connection.user)
+    has_username = can(local.connection.username)
     has_password = can(local.connection.password)
-    validate_properties = local.has_username && local.has_password ? null : tobool("ERROR: Connection must have both 'user' and 'password' properties")
+    validate_properties = local.has_username && local.has_password ? null : tobool("ERROR: Connection must have both 'username' and 'password' properties")
     
     # Extract credentials
-    user = local.connection.user
+    username = local.connection.username
     password = local.connection.password
 }
 
@@ -138,11 +138,11 @@ resource "kubernetes_deployment" "postgresql" {
           }
           env {
             name = "POSTGRES_USER"
-            value = local.user
+            value = local.username
           }
           env {
             name  = "POSTGRES_DB"
-            value = local.user
+            value = local.username
           }
           port {
             container_port = local.port
@@ -185,7 +185,7 @@ output "result" {
     values = {
       host = "${kubernetes_service.postgres.metadata[0].name}.${kubernetes_service.postgres.metadata[0].namespace}.svc.cluster.local"
       port = local.port
-      database = "postgres_db"
+      database = local.username
     }
   }
 }

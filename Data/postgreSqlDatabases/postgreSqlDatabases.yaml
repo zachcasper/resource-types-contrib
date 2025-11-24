@@ -65,6 +65,16 @@ types:
               type: string
               enum: ['S', 'M', 'L']
               description: "(Optional) The relative size of the PostgreSQL database, actual size varies based on the Environment. If not specified, small is assumed."
+            connections:
+              type: object
+              description: (Required) A connection to a Secret resource. Secret must have username and password keys.
+              additionalProperties:
+                type: object
+                properties:
+                  source:
+                    type: string
+                    description: (Required) The resource ID of the Secret resource.
+                required: [source]
             host:
               type: string
               description: (Read Only) The host name used to connect to the database.
@@ -77,4 +87,4 @@ types:
               type: string
               description: (Read Only) The name of the database.
               readOnly: true
-          required: [environment]
+          required: [environment, connections]
