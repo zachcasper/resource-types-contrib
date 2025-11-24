@@ -49,7 +49,7 @@ locals {
     "radapp.io/resource"       = local.resource_name
     "radapp.io/application"    = local.application_name
     "radapp.io/environment"    = local.environment_label
-    "radapp.io/resource-type"  = var.context.resource.type
+    "radapp.io/resource-type"  = replace(var.context.resource.type, "/", "-")
     "radapp.io/resource-group" = local.resource_group_name
   }
 }
