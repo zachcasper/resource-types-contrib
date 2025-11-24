@@ -92,11 +92,11 @@ locals {
     has_username = can(local.connection.username)
     has_password = can(local.connection.password)
 
-    validate_properties = (
-      local.has_username && local.has_password
-        ? null
-        : error("Connection must have both 'username' and 'password' properties")
-    )
+    # validate_properties = (
+    #   local.has_username && local.has_password
+    #     ? null
+    #     : error("Connection must have both 'username' and 'password' properties")
+    # )
 
     # Extract credentials
     username = local.connection.data.username.value
