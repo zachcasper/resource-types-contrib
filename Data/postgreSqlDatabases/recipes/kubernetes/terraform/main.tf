@@ -78,29 +78,10 @@ variable "memory" {
 locals {
     port = 5432
     
-    # Validate and extract connection credentials
+    # Get the secret reference. Should be only a single connected resource.
     connections = try(var.context.resource.connections, {})
-    connection_count = length(local.connections)
-    
-    # Error if not exactly one connection
-    validate_connection_count = local.connection_count == 1 ? null : error("ERROR: Exactly one connection to a Secrets resource is required, found ${local.connection_count}")
-    
-    # Get the single connection object
     connection = values(local.connections)[0]
-    
-    # Validate required properties exist
-    has_username = can(local.connection.username)
-    has_password = can(local.connection.password)
-
-    # validate_properties = (
-    #   local.has_username && local.has_password
-    #     ? null
-    #     : error("Connection must have both 'username' and 'password' properties")
-    # )
-
-    # Extract credentials
-    username = local.connection.data.username.value
-    password = local.connection.data.password.value
+    secretName = connection.secretName
 }
 
 # ========================================
@@ -139,15 +120,25 @@ resource "kubernetes_deployment" "postgresql" {
             }
           env {
             name = "POSTGRES_USER"
-            value = local.username
+            value_from {
+              secret_key_ref {
+                name = local.secretName
+                key  = "username"
+              }
+            }
           }
           env {
             name  = "POSTGRES_PASSWORD"
-            value = local.password
+            value_from {
+              secret_key_ref {
+                name = local.secretName
+                key  = "password"
+              }
+            }
           }
           env {
             name  = "POSTGRES_DB"
-            value = local.username
+            value = "postgres_db"
           }
           port {
             container_port = local.port
@@ -190,7 +181,9 @@ output "result" {
     values = {
       host = "${kubernetes_service.postgres.metadata[0].name}.${kubernetes_service.postgres.metadata[0].namespace}.svc.cluster.local"
       port = local.port
-      database = local.username
+      database = "postgres_db"
+      username = data.kubernetes_secret.credentials.data["username"]
+      password = data.kubernetes_secret.credentials.data["password"]
     }
   }
 }
