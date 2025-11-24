@@ -125,7 +125,7 @@ resource "kubernetes_deployment" "postgresql" {
             name = "POSTGRES_USER"
             value_from {
               secret_key_ref {
-                name = local.secretName
+                name = local.secret_name
                 key  = "username"
               }
             }
@@ -134,7 +134,7 @@ resource "kubernetes_deployment" "postgresql" {
             name  = "POSTGRES_PASSWORD"
             value_from {
               secret_key_ref {
-                name = local.secretName
+                name = local.secret_name
                 key  = "password"
               }
             }
