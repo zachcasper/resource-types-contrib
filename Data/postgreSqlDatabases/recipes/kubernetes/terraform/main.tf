@@ -82,7 +82,7 @@ locals {
   radius_connections_map      = try(var.context.resource.connections, {})
   radius_connection_list      = values(local.radius_connections_map)
   radius_first_connection     = try(local.radius_connection_list[0], null)
-  radius_secret_name          = radius_first_connection != null ? lookup(radius_first_connection, "secretName", null) : null
+  radius_secret_name          = local.radius_first_connection != null ? lookup(local.radius_first_connection, "secretName", null) : null
 
 }
 
