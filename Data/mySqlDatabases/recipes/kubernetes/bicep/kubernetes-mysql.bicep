@@ -35,6 +35,25 @@ var password string = uniqueString(context.resource.id, guid(uniqueName, usernam
 @description('MySQL server root password.')
 var root_password string = uniqueString(context.resource.id, guid(uniqueName, 'root'))
 
+@description('Name of the Kubernetes secret that stores MySQL passwords.')
+var secretName = '${uniqueName}-secret'
+
+resource mysqlSecret 'core/Secret@v1' = {
+  metadata: {
+    name: secretName
+    labels: {
+      app: context.application.name
+      resource: context.resource.name
+      'radapp.io/application': context.application == null ? '' : context.application.name
+    }
+  }
+  type: 'Opaque'
+  stringData: {
+    'root-password': root_password
+    password: password
+  }
+}
+
 resource mySql 'apps/Deployment@v1' = {
   metadata: {
     name: uniqueName
@@ -67,7 +86,12 @@ resource mySql 'apps/Deployment@v1' = {
             env: [
               {
                 name: 'MYSQL_ROOT_PASSWORD'
-                value: root_password
+                valueFrom: {
+                  secretKeyRef: {
+                    name: mysqlSecret.metadata.name
+                    key: 'root-password'
+                  }
+                }
               }
               {
                 name: 'MYSQL_USER'
@@ -75,7 +99,12 @@ resource mySql 'apps/Deployment@v1' = {
               }
               {
                 name: 'MYSQL_PASSWORD'
-                value: password
+                valueFrom: {
+                  secretKeyRef: {
+                    name: mysqlSecret.metadata.name
+                    key: 'password'
+                  }
+                }
               }
               {
                 name: 'MYSQL_DATABASE'
@@ -116,6 +145,7 @@ output result object = {
   resources: [
     '/planes/kubernetes/local/namespaces/${svc.metadata.namespace}/providers/core/Service/${svc.metadata.name}'
     '/planes/kubernetes/local/namespaces/${mySql.metadata.namespace}/providers/apps/Deployment/${mySql.metadata.name}'
+    '/planes/kubernetes/local/namespaces/${mysqlSecret.metadata.namespace}/providers/core/Secret/${mysqlSecret.metadata.name}'
   ]
   values: {
     host: '${svc.metadata.name}.${svc.metadata.namespace}.svc.cluster.local'
