@@ -34,15 +34,6 @@ locals {
   # Application name
   application_name = var.context.application != null ? var.context.application.name : ""
 
-  # Build unique name with length constraint (max 63 chars for Kubernetes)
-  # Format: <app>-<resource>-<env>
-  base_name = "${local.application_name}-${local.resource_name}-${local.environment_label}"
-  
-  # If too long, abbreviate application name
-  uniqueName = length(local.base_name) > 63 ? (
-    "${substr(local.application_name, 0, max(1, 63 - length(local.resource_name) - length(local.environment_label) - 2))}-${local.resource_name}-${local.environment_label}"
-  ) : local.base_name
-
   # Common labels
   labels = {
     "radapp.io/resource"       = local.resource_name
@@ -126,7 +117,7 @@ resource "kubernetes_secret" "secret" {
   }
   
   metadata {
-    name      = local.uniqueName
+    name      = local.resource_name
     namespace = local.namespace
     labels    = local.labels
   }

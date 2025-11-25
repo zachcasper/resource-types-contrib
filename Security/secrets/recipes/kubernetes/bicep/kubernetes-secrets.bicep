@@ -27,15 +27,6 @@ var resourceGroupName = split(context.resource.id, '/')[4]
 // Application name (safe)
 var applicationName = context.application != null ? context.application.name : ''
 
-// Build unique name with length constraint (max 63 chars for Kubernetes)
-// Format: <app>-<resource>-<env>
-var baseName = '${applicationName}-${resourceName}-${environmentLabel}'
-
-// If too long, abbreviate application name
-var uniqueName = length(baseName) > 63
-  ? '${substring(applicationName, 0, max(1, 63 - length(resourceName) - length(environmentLabel) - 2))}-${resourceName}-${environmentLabel}'
-  : baseName
-
 // Common labels 
 var labels = {
   'radapp.io/resource':       resourceName
@@ -83,7 +74,7 @@ var secretName = length(missingFields) > 0 ? missingFields : context.resource.na
 
 resource secret 'core/Secret@v1' = {
   metadata: {
-    name: uniqueName
+    name: resourceName
     namespace: namespace
     labels: labels
   }

@@ -27,15 +27,6 @@ var resourceGroupName = split(context.resource.id, '/')[4]
 // Application name (safe)
 var applicationName = context.application != null ? context.application.name : ''
 
-// Build unique name with length constraint (max 63 chars for Kubernetes)
-// Format: <app>-<resource>-<env>
-var baseName = '${applicationName}-${resourceName}-${environmentLabel}'
-
-// If too long, abbreviate application name
-var uniqueName = length(baseName) > 63
-  ? '${substring(applicationName, 0, max(1, 63 - length(resourceName) - length(environmentLabel) - 2))}-${resourceName}-${environmentLabel}'
-  : baseName
-
 // Common labels 
 var labels = {
   'radapp.io/resource':       resourceName
@@ -77,7 +68,7 @@ var radiusSecretName = radiusFirstConnection != null ? (radiusFirstConnection.?s
 
 resource postgresql 'apps/Deployment@v1' = {
   metadata: {
-    name: uniqueName
+    name: resourceName
     namespace: namespace
     labels: labels
   }
@@ -142,7 +133,7 @@ resource postgresql 'apps/Deployment@v1' = {
 
 resource svc 'core/Service@v1' = {
   metadata: {
-    name: uniqueName
+    name: resourceName
     namespace: namespace
     labels: labels
   }
