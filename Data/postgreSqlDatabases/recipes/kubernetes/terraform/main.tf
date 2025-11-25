@@ -87,7 +87,7 @@ locals {
 }
 
 # ========================================
-# Resources
+# PostgreSQL resources
 # ========================================
 
 resource "kubernetes_deployment" "postgresql" {
@@ -106,20 +106,23 @@ resource "kubernetes_deployment" "postgresql" {
 
     template {
       metadata {
-        labels = {
+        labels = merge(local.labels, {
           app = "postgres"
-        }
+        })
       }
 
       spec {
         container {
-          image = "postgres:16-alpine"
           name  = "postgres"
+          image = "postgres:16-alpine"
           resources {
             requests = {
               memory = var.memory[var.context.resource.properties.size].memoryRequest
               }
             }
+          port {
+            container_port = local.port
+          }
           env {
             name = "POSTGRES_USER"
             value_from {
@@ -142,9 +145,6 @@ resource "kubernetes_deployment" "postgresql" {
             name  = "POSTGRES_DB"
             value = "postgres_db"
           }
-          port {
-            container_port = local.port
-          }
         }
       }
     }
@@ -157,15 +157,13 @@ resource "kubernetes_service" "postgres" {
     namespace = local.namespace
     labels    = local.labels
   }
-
   spec {
+    type = "ClusterIP"
     selector = {
       app = "postgres"
     }
-
     port {
-      port        = local.port
-      target_port = local.port
+      port = local.port
     } 
   }
 }

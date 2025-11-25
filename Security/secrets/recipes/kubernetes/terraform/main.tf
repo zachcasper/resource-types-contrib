@@ -20,8 +20,6 @@ variable "context" {
 locals {
   resource_name = var.context.resource.name
   namespace     = var.context.runtime.kubernetes.namespace
-  
-  # Extract resource properties
   resource_properties = try(var.context.resource.properties, {})
 
   # Extract last segment from environment path for labels
@@ -30,6 +28,7 @@ locals {
   environment_label = length(local.environment_parts) > 0 ? local.environment_parts[length(local.environment_parts) - 1] : ""
 
   # Extract resource group name
+  # Index 4 is the resource group name
   resource_group_name = split("/", var.context.resource.id)[4]
 
   # Application name
@@ -44,7 +43,7 @@ locals {
     "${substr(local.application_name, 0, max(1, 63 - length(local.resource_name) - length(local.environment_label) - 2))}-${local.resource_name}-${local.environment_label}"
   ) : local.base_name
 
-  # Build labels
+  # Common labels
   labels = {
     "radapp.io/resource"       = local.resource_name
     "radapp.io/application"    = local.application_name
@@ -84,7 +83,7 @@ locals {
 }
 
 # ========================================
-# Resources
+# Kubernetes Secret resource
 # ========================================
 
 resource "kubernetes_secret" "secret" {
