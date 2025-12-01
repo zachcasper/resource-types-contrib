@@ -1,2 +1,5 @@
 **/*.tgz
 **/bicepconfig.json
+**/*.json.tmp
+# Bicep build output files
+**/recipes/**/*.json
