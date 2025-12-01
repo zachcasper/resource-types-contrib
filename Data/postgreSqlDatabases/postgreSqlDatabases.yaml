@@ -2,7 +2,7 @@ namespace: Radius.Data
 types:
   postgreSqlDatabases:  
     description: |
-      The Radius.Data/postgreSQLDatabases Resource Type deploys a PostgresSQL database. The database resource must have a connection to a Radius.Security/secrets resource with a username and password. To deploy a new PostgresSQL database, first add a secret to the application definition Bicep file. See the Radius.Security/secrets resource type documentation for details. Then add the postgreSQLDatabases resource.
+      The Radius.Data/postgreSQLDatabases Resource Type deploys a PostgresSQL database. The database resource must have one and only one connection to a Radius.Security/secrets resource with a username and password. To deploy a new PostgresSQL database, first add a secret to the application definition Bicep file. See the Radius.Security/secrets resource type documentation for details. Then add the postgreSQLDatabases resource.
       
       ```
       extension radius

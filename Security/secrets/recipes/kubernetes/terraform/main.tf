@@ -136,8 +136,5 @@ output "result" {
     resources = [
         "/planes/kubernetes/local/namespaces/${kubernetes_secret.secret.metadata[0].namespace}/providers/core/Secret/${kubernetes_secret.secret.metadata[0].name}"
     ]
-    values = {
-      secretName = "${kubernetes_secret.secret.metadata[0].name}"
-    }
   }
 }

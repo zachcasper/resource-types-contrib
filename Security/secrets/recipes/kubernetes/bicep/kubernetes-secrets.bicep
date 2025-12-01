@@ -66,7 +66,6 @@ var stringData = reduce(items(secretData), {}, (acc, item) =>
 
 // Determine secret type based on kind
 var secretType = secretKind == 'certificate-pem' ? 'kubernetes.io/tls' : (secretKind == 'basicAuthentication' ? 'kubernetes.io/basic-auth' : 'Opaque')
-var secretName = length(missingFields) > 0 ? missingFields : context.resource.name
 
 //////////////////////////////////////////
 // Kubernetes Secret resource
@@ -89,9 +88,6 @@ resource secret 'core/Secret@v1' = {
 
 output result object = {
   resources: [
-    '/planes/kubernetes/local/namespaces/${context.runtime.kubernetes.namespace}/providers/core/Secret/${secretName}'
+    '/planes/kubernetes/local/namespaces/${context.runtime.kubernetes.namespace}/providers/core/Secret/${resourceName}'
   ]
-  values: {
-    secretName: secret.metadata.name
-  }
 }

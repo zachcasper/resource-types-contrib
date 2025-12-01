@@ -59,7 +59,7 @@ var port = 5432
 var radiusConnectionsMap = context.resource.?connections ?? {}
 var radiusConnectionList = items(radiusConnectionsMap)
 var radiusFirstConnection = length(radiusConnectionList) > 0 ? radiusConnectionList[0].value : null
-var radiusSecretName = radiusFirstConnection != null ? (radiusFirstConnection.?secretName ?? null) : null
+var radiusSecretName = radiusFirstConnection != null ? (radiusFirstConnection.?name ?? null) : null
 
 
 //////////////////////////////////////////
