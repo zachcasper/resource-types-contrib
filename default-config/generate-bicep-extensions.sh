@@ -13,8 +13,9 @@ entries=$(awk '
   /definitionLocation:/ {
     path = $0
     sub(/.*definitionLocation:[[:space:]]*/, "", path)
-    tgz = tolower(name)
-    gsub(/[.\/]/, "-", tgz)
+    tgz = name
+    sub(/.*\//, "", tgz)
+    tgz = tolower(tgz)
     print tgz "\t" path
   }
 ' types.yaml)
