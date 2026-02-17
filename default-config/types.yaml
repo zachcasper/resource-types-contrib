@@ -1,0 +1,23 @@
+# Radius Resource Types manifest
+
+types:
+  # Radius.Core/applications:
+  #   definitionLocation: git::https://github.com/radius-project/resource-types-contrib.git//Core/applications/applications.yaml
+  
+  Radius.Compute/containers:
+    definitionLocation: git::https://github.com/radius-project/resource-types-contrib.git//Compute/containers/containers.yaml
+
+  Radius.Compute/persistentVolumes:
+    definitionLocation: git::https://github.com/radius-project/resource-types-contrib.git//Compute/persistentVolumes/persistentVolumes.yaml
+
+  Radius.Compute/routes:
+    definitionLocation: git::https://github.com/radius-project/resource-types-contrib.git//Compute/routes/routes.yaml
+
+  Radius.Security/secrets:
+    definitionLocation: git::https://github.com/radius-project/resource-types-contrib.git//Security/secrets/secrets.yaml
+
+  Radius.Data/mySqlDatabases:
+    definitionLocation: git::https://github.com/radius-project/resource-types-contrib.git//Data/mySqlDatabases/mySqlDatabases.yaml
+
+  Radius.Data/postgreSqlDatabases:
+    definitionLocation: git::https://github.com/radius-project/resource-types-contrib.git//Data/postgreSqlDatabases/postgreSqlDatabases.yaml

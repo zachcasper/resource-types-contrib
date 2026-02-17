@@ -1,0 +1,26 @@
+# Radius Recipe manifest for Azure using Terraform
+
+recipes:
+Radius.Compute/containers:
+  recipeKind: terraform
+  recipeLocation: git::https://github.com/radius-project/resource-types-contrib.git//Compute/containers/recipes/azure/terraform
+
+Radius.Compute/persistentVolumes:
+  recipeKind: terraform
+  recipeLocation: git::https://github.com/radius-project/resource-types-contrib.git//Compute/persistentVolumes/recipes/azure/terraform
+
+Radius.Compute/routes:
+  recipeKind: terraform
+  recipeLocation: git::https://github.com/radius-project/resource-types-contrib.git//Compute/routes/recipes/azure/terraform
+
+Radius.Security/secrets:
+  recipeKind: terraform
+  recipeLocation: git::https://github.com/radius-project/resource-types-contrib.git//Security/secrets/recipes/azure/terraform
+
+Radius.Data/mySqlDatabases:
+  recipeKind: terraform
+  recipeLocation: git::https://github.com/radius-project/resource-types-contrib.git//Data/mySqlDatabases/recipes/azure/terraform
+
+Radius.Data/postgreSqlDatabases:
+  recipeKind: terraform
+  recipeLocation: git::https://github.com/radius-project/resource-types-contrib.git//Data/postgreSqlDatabases/recipes/azure/terraform

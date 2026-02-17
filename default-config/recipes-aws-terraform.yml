@@ -1,0 +1,26 @@
+# Radius Recipe manifest for AWS using Terraform
+
+recipes:
+  Radius.Compute/containers:
+    recipeKind: terraform
+    recipeLocation: git::https://github.com/radius-project/resource-types-contrib.git//Compute/containers/recipes/aws/terraform
+
+  Radius.Compute/persistentVolumes:
+    recipeKind: terraform
+    recipeLocation: git::https://github.com/radius-project/resource-types-contrib.git//Compute/persistentVolumes/recipes/aws/terraform
+
+  Radius.Compute/routes:
+    recipeKind: terraform
+    recipeLocation: git::https://github.com/radius-project/resource-types-contrib.git//Compute/routes/recipes/aws/terraform
+
+  Radius.Security/secrets:
+    recipeKind: terraform
+    recipeLocation: git::https://github.com/radius-project/resource-types-contrib.git//Security/secrets/recipes/aws/terraform
+
+  Radius.Data/mySqlDatabases:
+    recipeKind: terraform
+    recipeLocation: git::https://github.com/radius-project/resource-types-contrib.git//Data/mySqlDatabases/recipes/aws/terraform
+
+  Radius.Data/postgreSqlDatabases:
+    recipeKind: terraform
+    recipeLocation: git::https://github.com/radius-project/resource-types-contrib.git//Data/postgreSqlDatabases/recipes/aws/terraform

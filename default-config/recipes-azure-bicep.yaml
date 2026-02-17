@@ -1,0 +1,26 @@
+# Radius Recipe manifest for Azure using Bicep
+
+recipes:
+Radius.Compute/containers:
+  recipeKind: bicep
+  recipeLocation: https://grcr.io/radius-project/recipes/azure/containers
+
+Radius.Compute/persistentVolumes:
+  recipeKind: bicep
+  recipeLocation: https://grcr.io/radius-project/recipes/azure/persistentVolumes
+
+Radius.Compute/routes:
+  recipeKind: bicep
+  recipeLocation: https://grcr.io/radius-project/recipes/azure/routes
+
+Radius.Security/secrets:
+  recipeKind: bicep
+  recipeLocation: https://grcr.io/radius-project/recipes/azure/secrets
+
+Radius.Data/mySqlDatabases:
+  recipeKind: bicep
+  recipeLocation: https://grcr.io/radius-project/recipes/azure/mySqlDatabases
+
+Radius.Data/postgreSqlDatabases:
+  recipeKind: bicep
+  recipeLocation: https://grcr.io/radius-project/recipes/azure/postgreSqlDatabases
