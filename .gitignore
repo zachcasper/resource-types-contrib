@@ -1,3 +1,4 @@
 **/*.tgz
 !default-config/*.tgz
 **/bicepconfig.json
+!default-config/bicepconfig.json

@@ -1,0 +1,11 @@
+{
+  "extensions": {
+      "radius-compute-containers": "./radius-compute-containers.tgz",
+      "radius-compute-persistentvolumes": "./radius-compute-persistentvolumes.tgz",
+      "radius-compute-routes": "./radius-compute-routes.tgz",
+      "radius-security-secrets": "./radius-security-secrets.tgz",
+      "radius-data-mysqldatabases": "./radius-data-mysqldatabases.tgz",
+      "radius-data-postgresqldatabases": "./radius-data-postgresqldatabases.tgz",
+      "radius": "br:biceptypes.azurecr.io/radius:latest"
+  }
+}
